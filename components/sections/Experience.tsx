@@ -27,48 +27,6 @@ const experiences = [
       "Orchestrated secure ML workflows to address data heterogeneity and strict distributed data privacy requirements, translating project goals into a scalable, production-aligned AI solution.",
     ],
   },
-  {
-    role: "Member · Open Source Contributor",
-    org: "The Red Wood Lab",
-    type: "Part-time",
-    period: "Jan 2025 – May 2025",
-    location: "Jaipur, Rajasthan · Remote",
-    bullets: [
-      "Contributed a multivariate Ridge regression model for electrical energy prediction on Micro Gas Turbine data (achieving R² = 0.9785 on test set).",
-      "Worked across ML, NLP, and data science projects within the lab's open research ecosystem.",
-    ],
-  },
-  {
-    role: "Open Source Contributor",
-    org: "Social Winter of Code (SWOC)",
-    type: "Part-time",
-    period: "Jan 2025 – Mar 2025",
-    location: "Remote",
-    bullets: [
-      "Contributed to open-source projects spanning LLMs, Computer Vision, and NLP as part of the SWOC program.",
-    ],
-  },
-  {
-    role: "Open Source Contributor",
-    org: "Hacktoberfest",
-    type: "Part-time",
-    period: "Oct 2024",
-    location: "Remote",
-    bullets: [
-      "Contributed ML and data science notebooks to open-source repositories during Hacktoberfest 2024. Earned Level 1 badge.",
-    ],
-  },
-  {
-    role: "Software Engineering Virtual Simulation",
-    org: "JPMorgan Chase & Co. (via Forage)",
-    type: "Trainee",
-    period: "Jan 2024",
-    location: "Remote",
-    bullets: [
-      "Completed a simulation focused on engineering tasks in JPMorgan Chase's credit-card rewards department.",
-      "Created a new class to get an existing system up and running; authored a comprehensive unit test suite in Java.",
-    ],
-  },
 ];
 
 const stagger = {

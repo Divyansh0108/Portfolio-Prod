@@ -7,6 +7,7 @@ import { Skills } from "@/components/sections/Skills";
 import { FeaturedWriting } from "@/components/sections/FeaturedWriting";
 import { Education } from "@/components/sections/Education";
 import { HonorsAwards } from "@/components/sections/HonorsAwards";
+import { Volunteering } from "@/components/sections/Volunteering";
 import { FooterCTA } from "@/components/sections/FooterCTA";
 
 export default function HomePage() {
@@ -21,6 +22,7 @@ export default function HomePage() {
       <FeaturedWriting />
       <Education />
       <HonorsAwards />
+      <Volunteering />
       <FooterCTA />
     </>
   );
