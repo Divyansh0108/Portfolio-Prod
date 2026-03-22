@@ -86,18 +86,18 @@ export function FeaturedProjects() {
       </div>
 
       {/* Horizontal scroll track */}
-      <div className="relative -mx-6">
-        {/* Fade edges */}
-        {canScrollLeft && (
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
-        )}
+      <div className="relative">
+        {/* Fade edge — right only when more content */}
         {canScrollRight && (
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
+        )}
+        {canScrollLeft && (
+          <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
         )}
 
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto px-6 pb-2 snap-x snap-mandatory scrollbar-hide"
+          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
