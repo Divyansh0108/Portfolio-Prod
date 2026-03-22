@@ -117,3 +117,10 @@ h3 {
   outline-offset: 2px;
   border-radius: 3px;
 }
+
+/* ─── Scrollbar hide (for carousel) ──────────────────────────────────────── */
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
