@@ -30,7 +30,7 @@ export function Hero() {
         <div className="h-20 w-20 rounded-full overflow-hidden border-2 border-[var(--border)] bg-[var(--muted)]">
           <Image
             src="/headshot.jpg"
-            alt={siteConfig.name}
+            alt="Divyansh Pandey — profile photo"
             width={80}
             height={80}
             className="object-cover w-full h-full"

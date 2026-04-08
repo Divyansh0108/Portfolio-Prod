@@ -6,6 +6,8 @@ import { Footer } from "@/components/ui/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { BackToTop } from "@/components/ui/BackToTop";
+import { PageTransition } from "@/components/ui/PageTransition";
 import "./globals.css";
 import { siteConfig } from "@/lib/data";
 
@@ -40,21 +42,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dmSans.variable} font-sans antialiased cursor-none`}>
+      <body className={`${dmSans.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          {/* Skip to main content — keyboard accessibility */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:bg-[var(--background)] focus:border focus:border-[var(--border)] focus:rounded-md focus:text-sm focus:font-medium focus:text-[var(--foreground)] focus:shadow-sm"
+          >
+            Skip to content
+          </a>
           <ScrollProgress />
           <GrainOverlay />
           <CustomCursor />
           <NavBar />
-          <main className="mx-auto max-w-3xl px-6">{children}</main>
+          <main id="main-content" className="mx-auto max-w-3xl px-6">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <div className="mx-auto max-w-3xl px-6">
             <Footer />
           </div>
+          <BackToTop />
         </ThemeProvider>
       </body>
     </html>

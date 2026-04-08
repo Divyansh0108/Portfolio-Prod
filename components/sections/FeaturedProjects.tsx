@@ -11,12 +11,16 @@ export function FeaturedProjects() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeDot, setActiveDot] = useState(0);
 
   const checkScroll = () => {
     const el = scrollRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 4);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+    // Estimate active dot based on scroll position
+    const cardWidth = el.scrollWidth / projects.length;
+    setActiveDot(Math.round(el.scrollLeft / cardWidth));
   };
 
   useEffect(() => {
@@ -34,7 +38,6 @@ export function FeaturedProjects() {
   const scroll = (dir: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    // Scroll by roughly 2 card widths
     const amount = el.clientWidth * 0.85;
     el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   };
@@ -54,23 +57,23 @@ export function FeaturedProjects() {
           Projects
         </h2>
         <div className="flex items-center gap-3">
-          {/* Arrows */}
-          <div className="hidden sm:flex items-center gap-1.5">
+          {/* Scroll arrows — visible on all screen sizes, 40px touch targets */}
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}
               aria-label="Scroll left"
-              className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150 disabled:opacity-30 disabled:pointer-events-none"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
             >
-              <ChevronLeft size={14} />
+              <ChevronLeft size={15} />
             </button>
             <button
               onClick={() => scroll("right")}
               disabled={!canScrollRight}
               aria-label="Scroll right"
-              className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150 disabled:opacity-30 disabled:pointer-events-none"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
             >
-              <ChevronRight size={14} />
+              <ChevronRight size={15} />
             </button>
           </div>
 
@@ -87,7 +90,6 @@ export function FeaturedProjects() {
 
       {/* Horizontal scroll track */}
       <div className="relative">
-        {/* Fade edge — right only when more content */}
         {canScrollRight && (
           <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
         )}
@@ -113,6 +115,27 @@ export function FeaturedProjects() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Scroll position dots — visible on mobile */}
+      <div className="flex sm:hidden justify-center gap-1.5 mt-4">
+        {projects.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to project ${i + 1}`}
+            onClick={() => {
+              const el = scrollRef.current;
+              if (!el) return;
+              const cardWidth = el.scrollWidth / projects.length;
+              el.scrollTo({ left: cardWidth * i, behavior: "smooth" });
+            }}
+            className={`h-1.5 rounded-full transition-all duration-200 ${
+              i === activeDot
+                ? "w-4 bg-[var(--foreground)]"
+                : "w-1.5 bg-[var(--border)]"
+            }`}
+          />
+        ))}
       </div>
     </motion.section>
   );

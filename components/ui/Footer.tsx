@@ -93,7 +93,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   title={s.label}
-                  className="flex items-center justify-center h-7 w-7 rounded border border-[var(--border)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150"
+                  className="flex items-center justify-center h-10 w-10 rounded border border-[var(--border)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150"
                 >
                   {iconMap[s.icon]}
                 </Link>

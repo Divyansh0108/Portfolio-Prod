@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Mail, Phone, MapPin, Github, Linkedin, Instagram, BookOpen, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { siteConfig, socialLinks } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -35,14 +36,17 @@ export default function ContactPage() {
 
         {/* Contact details */}
         <div className="flex flex-col gap-4 mb-12">
-          <Link
-            href={`mailto:${siteConfig.email}`}
-            id="contact-email-link"
-            className="colored-link inline-flex items-center gap-2.5 text-lg font-semibold underline underline-offset-2 transition-opacity duration-150 hover:opacity-75"
-          >
-            <Mail size={18} />
-            {siteConfig.email}
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href={`mailto:${siteConfig.email}`}
+              id="contact-email-link"
+              className="colored-link inline-flex items-center gap-2.5 text-lg font-semibold underline underline-offset-2 transition-opacity duration-150 hover:opacity-75"
+            >
+              <Mail size={18} />
+              {siteConfig.email}
+            </Link>
+            <CopyButton text={siteConfig.email} label="Copy email address" />
+          </div>
 
           <Link
             href={`tel:${siteConfig.phone}`}
