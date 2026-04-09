@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   description: "Essays, guides, and technical deep-dives — published on Medium.",
 };
 
-// ISR: revalidate page every hour to pick up new posts
-export const revalidate = 3600;
+// ISR: revalidate page every 10 minutes to pick up new posts
+export const revalidate = 600;
 
 export default async function WritingPage() {
   const posts = await getMediumPosts();
