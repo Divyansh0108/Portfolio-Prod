@@ -12,37 +12,20 @@ export const siteConfig = {
   name: "Divyansh Pandey",
   role: "ML Engineer · Researcher · Builder",
   tagline: "Turning research into real systems — across ML, NLP, CV, and Agents.",
-  bio: "I'm a polymath at heart — I carry my ability to recognize patterns from 3D puzzles and investigative thinking into ML systems that actually work in production. From Federated Learning at IIT Hyderabad to RAG pipelines and real-time inference engines, I build at the intersection of research and engineering, with 2 years of experience shipping E2E production-grade AI systems.",
+  bio: [
+    "Fun fact about me: I am a polymath! 🧩",
+    "Is it a dealbreaker? If no, then you can certainly reach out to me! I carry forward my ability to recognize patterns from my hobbies to my professional life. I love to solve 3D puzzles and investigative mysteries (I am a side-gig detective as well, Lol 🕵️‍♂️).",
+    "Heyy! 👋 I am Divyansh, a Researcher, an ML Engineer and Data Scientist by profession.",
+    "My interests widely lie in practical applications of ML, DL, NLP, & CV in domains like Finance 💰, Healthcare 🏥, and Cybersecurity 🔐. Currently exploring Neurosymbolic AI and LLM steering to make LLMs better!",
+    "I have 2 years of collective experience where then, as well as now, I am continuing to build E2E production-grade industrial systems, along with keeping up with the latest research trends 🚀.",
+    "Reach out to me via email: 📧 divyanshpandey0108@gmail.com Or just ping me up on LinkedIn!! Tadaaa! 🎉",
+  ],
   email: "divyanshpandey0108@gmail.com",
   phone: "+91 9305425557",
   location: "Lucknow, Uttar Pradesh, India",
   resumeUrl: "/Resume.pdf",
 };
 
-// ─── Hero credentials ───────────────────────────────────────────────────────
-
-export const credentials = [
-  {
-    label: "Ex-ML Research & Development @ IIT Hyderabad (Vigil Labs)",
-    href: "https://tinyurl.com/3r49e4h5",
-  },
-  {
-    label: "First Author — Springer Nature (ICDEC 2024)",
-    href: "https://link.springer.com/chapter/10.1007/978-981-96-7742-9_17",
-  },
-  {
-    label: "3× Dean's List — Manipal University Jaipur",
-    href: "https://tinyurl.com/2trdx8yu",
-  },
-  {
-    label: "ML Researcher @ Manipal University Jaipur (current)",
-    href: "https://www.manipal.edu/mu/campuses/manipal-university-jaipur.html",
-  },
-  {
-    label: "@The-Red-Wood-Lab — Open Source Org",
-    href: "https://github.com/The-Red-Wood-Lab",
-  },
-];
 
 // ─── Currently Exploring ───────────────────────────────────────────────────
 
@@ -71,6 +54,16 @@ export const exploring: ExploreItem[] = [
     topic: "MLOps Pipelines",
     description:
       "End-to-end production deployment with DVC, MLflow, Airflow, Docker, and Kubernetes — from experiment tracking to monitoring.",
+  },
+  {
+    topic: "Neurosymbolic AI",
+    description:
+      "Combining neural networks with symbolic reasoning to build systems that generalize better and are interpretable by design.",
+  },
+  {
+    topic: "LLM Steering",
+    description:
+      "Mechanistic interpretability and activation-level interventions to steer LLM behavior — making language models safer and more aligned.",
   },
 ];
 

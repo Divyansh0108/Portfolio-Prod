@@ -5,6 +5,14 @@ import { Briefcase } from "lucide-react";
 
 const experiences = [
   {
+    role: "AI Research Intern",
+    org: "Indian AI Research Organization (IAIRO)",
+    type: "Internship",
+    period: "Mar 2026 – Present",
+    location: "Hybrid",
+    bullets: [],
+  },
+  {
     role: "Machine Learning Researcher",
     org: "Manipal University Jaipur",
     type: "Full-time",

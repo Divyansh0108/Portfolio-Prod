@@ -20,22 +20,7 @@ export default function ResearchPage() {
           Research
         </h1>
         <p className="mt-2 text-[0.925rem] text-[var(--muted-foreground)] max-w-lg">
-          My research interests span federated learning for healthcare, computer vision, 
-          human activity recognition, and practical applications of ML in production systems.
-        </p>
-      </div>
-
-      {/* Research focus */}
-      <div className="mb-12 rounded-lg border border-[var(--border)] p-6">
-        <h2 className="text-sm font-semibold text-[var(--foreground)] mb-2">
-          Research Focus
-        </h2>
-        <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-          I work at the intersection of applied machine learning and systems engineering. 
-          At IIT Hyderabad (Vigil Labs), I developed federated learning models for decentralized 
-          medical image classification, reducing communication overhead by 45% and surpassing 
-          baseline accuracy by 20% on non-IID real-world data. My published work focuses on 
-          sensor-based human activity recognition using feature engineering and ML pipelines.
+          My research interests lie in practical applications of ML, DL, NLP, & CV in domains like Finance, Healthcare, and Cybersecurity — with a current focus on Neurosymbolic AI and LLM steering.
         </p>
       </div>
 

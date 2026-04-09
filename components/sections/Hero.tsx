@@ -2,10 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { siteConfig, credentials } from "@/lib/data";
+import { siteConfig } from "@/lib/data";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 10 },
@@ -82,43 +80,21 @@ export function Hero() {
       </motion.h2>
 
       {/* Bio */}
-      <motion.p
+      <motion.div
         custom={4}
         initial="hidden"
         animate="visible"
         variants={fadeUp}
-        className="text-[0.925rem] text-[var(--muted-foreground)] leading-relaxed max-w-xl mb-6"
+        className="text-[0.925rem] text-[var(--muted-foreground)] leading-relaxed max-w-xl mb-8 space-y-3"
       >
-        {siteConfig.bio}
-      </motion.p>
-
-      {/* Credentials */}
-      <motion.ul
-        custom={5}
-        initial="hidden"
-        animate="visible"
-        variants={fadeUp}
-        className="mb-8 space-y-2"
-      >
-        {credentials.map((cred, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
-            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--muted-foreground)]" />
-            <Link
-              href={cred.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="colored-link underline underline-offset-2 transition-opacity duration-150 hover:opacity-75 flex items-center gap-1"
-            >
-              {cred.label}
-              <ArrowUpRight size={12} className="flex-shrink-0" />
-            </Link>
-          </li>
+        {siteConfig.bio.map((paragraph, i) => (
+          <p key={i}>{paragraph}</p>
         ))}
-      </motion.ul>
+      </motion.div>
 
       {/* CTA Buttons */}
       <motion.div
-        custom={6}
+        custom={5}
         initial="hidden"
         animate="visible"
         variants={fadeUp}
