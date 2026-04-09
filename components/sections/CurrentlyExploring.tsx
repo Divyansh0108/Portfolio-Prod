@@ -11,7 +11,7 @@ export function CurrentlyExploring() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="py-16 border-t border-[var(--border)]"
+      className="py-16 gradient-divider"
     >
       <h2 className="text-base font-semibold text-[var(--foreground)] mb-6">
         Currently exploring

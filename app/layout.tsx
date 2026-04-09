@@ -8,6 +8,7 @@ import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { PageTransition } from "@/components/ui/PageTransition";
+import { CursorSpotlight } from "@/components/ui/CursorSpotlight";
 import "./globals.css";
 import { siteConfig } from "@/lib/data";
 
@@ -56,6 +57,7 @@ export default function RootLayout({
           >
             Skip to content
           </a>
+          <CursorSpotlight />
           <ScrollProgress />
           <GrainOverlay />
           <CustomCursor />

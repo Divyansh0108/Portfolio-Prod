@@ -15,7 +15,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       target="_blank"
       rel="noopener noreferrer"
       id={`project-card-${project.id}`}
-      className="group flex flex-col rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 bg-[var(--background)] h-full"
+      className="group flex flex-col rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-200 bg-[var(--background)] h-full"
     >
       {/* Category + arrow */}
       <div className="flex items-center justify-between mb-3">

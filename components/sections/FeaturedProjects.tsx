@@ -49,7 +49,7 @@ export function FeaturedProjects() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="py-16 border-t border-[var(--border)]"
+      className="py-16 gradient-divider"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -80,10 +80,10 @@ export function FeaturedProjects() {
           <Link
             href="/projects"
             id="featured-projects-view-all"
-            className="inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150"
           >
             View all
-            <ArrowRight size={13} />
+            <ArrowRight size={11} />
           </Link>
         </div>
       </div>

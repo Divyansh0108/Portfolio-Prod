@@ -5,10 +5,16 @@ import { motion } from "framer-motion";
 const skillGroups = [
   {
     label: "Languages",
+    // blue
+    pillBg: "rgba(59,130,246,0.07)",
+    pillBorder: "rgba(59,130,246,0.2)",
     skills: ["Python", "SQL", "Java", "C", "JavaScript", "MATLAB"],
   },
   {
     label: "ML / DL",
+    // purple
+    pillBg: "rgba(168,85,247,0.07)",
+    pillBorder: "rgba(168,85,247,0.2)",
     skills: [
       "PyTorch", "TensorFlow", "Keras", "scikit-learn", "XGBoost",
       "Computer Vision", "NLP", "Federated Learning", "Generative AI",
@@ -17,6 +23,9 @@ const skillGroups = [
   },
   {
     label: "LLMs & Agents",
+    // violet
+    pillBg: "rgba(139,92,246,0.07)",
+    pillBorder: "rgba(139,92,246,0.2)",
     skills: [
       "LangChain", "LangGraph", "LangServe", "LangSmith",
       "RAG Pipelines", "LLM Fine-tuning", "Ollama", "Groq",
@@ -25,6 +34,9 @@ const skillGroups = [
   },
   {
     label: "MLOps & Cloud",
+    // emerald
+    pillBg: "rgba(16,185,129,0.07)",
+    pillBorder: "rgba(16,185,129,0.2)",
     skills: [
       "MLflow", "DVC", "DAGsHub", "BentoML", "Airflow", "Docker",
       "Kubernetes", "AWS (S3, EC2, IAM, RDS)", "GCP", "Azure",
@@ -33,6 +45,9 @@ const skillGroups = [
   },
   {
     label: "Databases",
+    // amber
+    pillBg: "rgba(245,158,11,0.07)",
+    pillBorder: "rgba(245,158,11,0.2)",
     skills: [
       "PostgreSQL", "MySQL", "MongoDB", "SQLite",
       "ChromaDB", "FAISS", "AstraDB",
@@ -40,6 +55,9 @@ const skillGroups = [
   },
   {
     label: "Frameworks & Tools",
+    // rose
+    pillBg: "rgba(244,63,94,0.07)",
+    pillBorder: "rgba(244,63,94,0.2)",
     skills: [
       "FastAPI", "Flask", "Django", "Streamlit",
       "Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly",
@@ -70,7 +88,7 @@ export function Skills() {
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
       variants={stagger}
-      className="py-16 border-t border-[var(--border)]"
+      className="py-16 gradient-divider"
     >
       <motion.h2
         variants={fadeUp}
@@ -89,7 +107,11 @@ export function Skills() {
               {group.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="rounded border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-foreground)] bg-[var(--muted)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150"
+                  className="rounded px-2.5 py-0.5 text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150"
+                  style={{
+                    backgroundColor: group.pillBg,
+                    border: `1px solid ${group.pillBorder}`,
+                  }}
                 >
                   {skill}
                 </span>

@@ -40,10 +40,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <CurrentlyExploring />
       <Experience />
       <FeaturedResearch />
       <FeaturedProjects />
+      <CurrentlyExploring />
       <Skills />
       <Suspense fallback={<FeaturedWritingSkeleton />}>
         <FeaturedWriting />

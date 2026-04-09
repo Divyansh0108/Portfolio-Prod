@@ -85,7 +85,7 @@ export function Hero() {
         initial="hidden"
         animate="visible"
         variants={fadeUp}
-        className="text-[0.925rem] text-[var(--muted-foreground)] leading-relaxed max-w-xl mb-8 space-y-3"
+        className="text-[0.925rem] text-[var(--muted-foreground)] leading-[1.8] max-w-xl mb-8 space-y-3"
       >
         {siteConfig.bio.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>

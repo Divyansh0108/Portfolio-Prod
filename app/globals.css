@@ -124,3 +124,27 @@ h3 {
   display: none;
 }
 
+/* ─── Gradient section divider ───────────────────────────────────────────── */
+
+/* Replace flat border-t with a gradient that fades at both edges */
+.gradient-divider {
+  border-top: none;
+  position: relative;
+}
+.gradient-divider::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border) 20%,
+    var(--border) 80%,
+    transparent
+  );
+}
+
