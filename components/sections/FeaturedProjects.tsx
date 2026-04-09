@@ -53,9 +53,17 @@ export function FeaturedProjects() {
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-base font-semibold text-[var(--foreground)]">
-          Projects
-        </h2>
+        <div className="overflow-hidden">
+          <motion.h2
+            className="text-base font-semibold text-[var(--foreground)]"
+            initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
+            whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Projects
+          </motion.h2>
+        </div>
         <div className="flex items-center gap-3">
           {/* Scroll arrows — visible on all screen sizes, 40px touch targets */}
           <div className="flex items-center gap-1.5">

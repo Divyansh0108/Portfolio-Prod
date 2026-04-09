@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Link from "next/link";
 
 interface ButtonProps {
@@ -10,6 +12,42 @@ interface ButtonProps {
   id?: string;
 }
 
+const MAGNET_RADIUS = 60; // px — how close the cursor needs to be to activate
+const MAGNET_STRENGTH = 0.35; // 0–1, fraction of distance to pull
+
+function useMagnet<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+
+  const onMouseMove = (e: React.MouseEvent<T>) => {
+    // Touch devices or reduced-motion: skip
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < MAGNET_RADIUS) {
+      const pull = (1 - dist / MAGNET_RADIUS) * MAGNET_STRENGTH;
+      el.style.transform = `translate(${dx * pull}px, ${dy * pull}px)`;
+    }
+  };
+
+  const onMouseLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.transform = "translate(0, 0)";
+    el.style.transition = "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    setTimeout(() => {
+      if (ref.current) ref.current.style.transition = "";
+    }, 400);
+  };
+
+  return { ref, onMouseMove, onMouseLeave };
+}
+
 export function Button({
   href,
   variant = "primary",
@@ -18,6 +56,9 @@ export function Button({
   external = false,
   id,
 }: ButtonProps) {
+  const { ref: linkRef, onMouseMove: lMove, onMouseLeave: lLeave } = useMagnet<HTMLAnchorElement>();
+  const { ref: btnRef, onMouseMove: bMove, onMouseLeave: bLeave } = useMagnet<HTMLButtonElement>();
+
   const base =
     "inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]";
 
@@ -33,11 +74,14 @@ export function Button({
   if (href) {
     return (
       <Link
+        ref={linkRef}
         id={id}
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
         className={classes}
+        onMouseMove={lMove}
+        onMouseLeave={lLeave}
       >
         {children}
       </Link>
@@ -45,7 +89,13 @@ export function Button({
   }
 
   return (
-    <button id={id} className={classes}>
+    <button
+      ref={btnRef}
+      id={id}
+      className={classes}
+      onMouseMove={bMove}
+      onMouseLeave={bLeave}
+    >
       {children}
     </button>
   );

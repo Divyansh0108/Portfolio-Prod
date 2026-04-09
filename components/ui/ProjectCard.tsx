@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { TagPill } from "./TagPill";
@@ -9,13 +11,41 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const cardRef = useRef<HTMLAnchorElement>(null);
+
+  const onMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    // Max ±8° tilt
+    const rotateX = ((y - cy) / cy) * -8;
+    const rotateY = ((x - cx) / cx) * 8;
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    card.style.boxShadow = "0 16px 40px -8px rgba(0,0,0,0.18)";
+  };
+
+  const onMouseLeave = () => {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0)";
+    card.style.boxShadow = "";
+  };
+
   return (
     <Link
+      ref={cardRef}
       href={project.href}
       target="_blank"
       rel="noopener noreferrer"
       id={`project-card-${project.id}`}
-      className="group flex flex-col rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-200 bg-[var(--background)] h-full"
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="group flex flex-col rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] transition-[border-color] duration-200 bg-[var(--background)] h-full"
+      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
     >
       {/* Category + arrow */}
       <div className="flex items-center justify-between mb-3">
@@ -50,7 +80,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         )}
       </div>
 
-      {/* Bullets — show max 2, rest behind "Read more" */}
+      {/* Bullets */}
       <ul className="space-y-1 flex-1">
         {project.bullets.slice(0, 2).map((bullet, i) => (
           <li
@@ -63,7 +93,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
         ))}
       </ul>
 
-      {/* Read more if content was truncated */}
       {project.bullets.length > 2 && (
         <span className="mt-2 text-xs font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-150">
           Read more →

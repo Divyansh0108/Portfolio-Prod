@@ -124,6 +124,25 @@ h3 {
   display: none;
 }
 
+/* ─── Aurora blob drift ──────────────────────────────────────────────────── */
+
+@keyframes aurora-drift {
+  0%   { transform: translate(0,    0)    scale(1);    border-radius: 60% 40% 55% 45% / 50% 60% 40% 55%; }
+  33%  { transform: translate(30px, 20px) scale(1.08); border-radius: 45% 55% 40% 60% / 60% 45% 55% 40%; }
+  66%  { transform: translate(-20px, 35px) scale(0.96); border-radius: 55% 45% 60% 40% / 45% 55% 45% 55%; }
+  100% { transform: translate(15px, -15px) scale(1.04); border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%; }
+}
+
+/* ─── Badge breathe ──────────────────────────────────────────────────────── */
+
+@keyframes badge-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; border-color: var(--border); }
+  50%       { box-shadow: 0 0 0 3px rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.4); }
+}
+.badge-breathe {
+  animation: badge-breathe 3s ease-in-out infinite;
+}
+
 /* ─── Gradient section divider ───────────────────────────────────────────── */
 
 /* Replace flat border-t with a gradient that fades at both edges */
