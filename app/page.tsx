@@ -10,6 +10,20 @@ import { Education } from "@/components/sections/Education";
 import { HonorsAwards } from "@/components/sections/HonorsAwards";
 import { Volunteering } from "@/components/sections/Volunteering";
 import { FooterCTA } from "@/components/sections/FooterCTA";
+import { siteConfig, socialLinks } from "@/lib/data";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: siteConfig.name,
+  jobTitle: siteConfig.role,
+  description: siteConfig.tagline,
+  email: siteConfig.email,
+  url: process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000",
+  sameAs: socialLinks.map((l) => l.href),
+};
 
 function FeaturedWritingSkeleton() {
   return (
@@ -39,6 +53,10 @@ function FeaturedWritingSkeleton() {
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <Hero />
       <Experience />
       <FeaturedResearch />

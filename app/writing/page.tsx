@@ -7,6 +7,11 @@ import { getMediumPosts } from "@/lib/medium";
 export const metadata: Metadata = {
   title: "Writing",
   description: "Essays, guides, and technical deep-dives — published on Medium.",
+  alternates: {
+    types: {
+      "application/rss+xml": "https://medium.com/feed/@divyanshpandey0108",
+    },
+  },
 };
 
 // ISR: revalidate page every 30 minutes — Medium posts don't update frequently
@@ -15,8 +20,39 @@ export const revalidate = 1800;
 export default async function WritingPage() {
   const posts = await getMediumPosts();
 
+  const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
+
+  const articlesJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Writing by Divyansh Pandey",
+    url: `${baseUrl}/writing`,
+    itemListElement: posts.map((post, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      item: {
+        "@type": "Article",
+        headline: post.title,
+        description: post.subtitle,
+        datePublished: post.date,
+        url: post.href,
+        author: {
+          "@type": "Person",
+          name: "Divyansh Pandey",
+          url: baseUrl,
+        },
+      },
+    })),
+  };
+
   return (
     <div className="pt-32 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articlesJsonLd) }}
+      />
       <div className="mb-10">
         <span className="text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)]">
           Essays &amp; Guides

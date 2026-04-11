@@ -9,6 +9,8 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { MagneticGrid } from "@/components/ui/MagneticGrid";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { siteConfig } from "@/lib/data";
 
@@ -69,6 +71,8 @@ export default function RootLayout({
             <Footer />
           </div>
           <BackToTop />
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

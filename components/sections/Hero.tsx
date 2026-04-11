@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
@@ -31,7 +31,19 @@ const clipReveal = {
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrambledName = useScrambleText(siteConfig.name, 300, 1000);
+
+  // Use shorter scramble target on small phones (< 640px) to prevent text overflow
+  const [scrambleTarget, setScrambleTarget] = useState(siteConfig.name);
+  useEffect(() => {
+    const update = () => {
+      setScrambleTarget(window.innerWidth < 640 ? "D. Pandey" : siteConfig.name);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const scrambledName = useScrambleText(scrambleTarget, 300, 1000);
 
   // Scroll parallax — layers move at different rates
   const { scrollYProgress } = useScroll({
@@ -109,6 +121,7 @@ export function Hero() {
           animate="visible"
           variants={clipReveal}
           style={{ y: nameY }}
+          aria-label={siteConfig.name}
           className="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--foreground)] leading-[1.1] font-mono"
         >
           {scrambledName}

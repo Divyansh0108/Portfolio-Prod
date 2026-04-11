@@ -9,9 +9,44 @@ export const metadata: Metadata = {
   description: "Publications and research by Divyansh Pandey in machine learning, computer vision, and federated learning.",
 };
 
+const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
+
+const researchJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Research Publications by Divyansh Pandey",
+  url: `${baseUrl}/research`,
+  itemListElement: researchItems.map((item, idx) => ({
+    "@type": "ListItem",
+    position: idx + 1,
+    item: {
+      "@type": "ScholarlyArticle",
+      headline: item.title,
+      description: item.subtitle,
+      datePublished: item.date,
+      url: item.href,
+      publisher: {
+        "@type": "Organization",
+        name: item.venue,
+      },
+      author: {
+        "@type": "Person",
+        name: "Divyansh Pandey",
+        url: baseUrl,
+      },
+    },
+  })),
+};
+
 export default function ResearchPage() {
   return (
     <div className="pt-32 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(researchJsonLd) }}
+      />
       <div className="mb-10">
         <span className="text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)]">
           Academic

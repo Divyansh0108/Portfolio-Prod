@@ -12,7 +12,7 @@
   --background-subtle: #fafafa;  /* very slight off-white for card insets */
   --foreground:        #000000;
   --muted:             #f5f5f5;  /* lightest gray for card/tag backgrounds */
-  --muted-foreground:  #737373;  /* mid-gray for secondary text */
+  --muted-foreground:  #666666;  /* mid-gray for secondary text — darkened from #737373 for WCAG AA contrast */
   --border:            #e5e5e5;  /* light neutral border */
   --border-strong:     #d4d4d4;  /* slightly stronger border on hover */
   --accent:            #000000;  /* primary button: black */
