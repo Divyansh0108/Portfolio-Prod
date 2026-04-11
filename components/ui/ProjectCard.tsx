@@ -12,6 +12,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
 
   const onMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const card = cardRef.current;
@@ -26,6 +27,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
     const rotateY = ((x - cx) / cx) * 8;
     card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
     card.style.boxShadow = "0 16px 40px -8px rgba(0,0,0,0.18)";
+
+    // Shimmer glare: a highlight that follows the tilt angle like a Pokémon card
+    if (glareRef.current) {
+      const xPct = (x / rect.width) * 100;
+      const yPct = (y / rect.height) * 100;
+      glareRef.current.style.background = `radial-gradient(circle at ${xPct}% ${yPct}%, rgba(255,255,255,0.13) 0%, transparent 65%)`;
+      glareRef.current.style.opacity = "1";
+    }
   };
 
   const onMouseLeave = () => {
@@ -33,6 +42,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     if (!card) return;
     card.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0)";
     card.style.boxShadow = "";
+    if (glareRef.current) glareRef.current.style.opacity = "0";
   };
 
   return (
@@ -44,9 +54,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
       id={`project-card-${project.id}`}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      className="group flex flex-col rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] transition-[border-color] duration-200 bg-[var(--background)] h-full"
+      className="group relative flex flex-col rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] transition-[border-color] duration-200 bg-[var(--background)] h-full overflow-hidden"
       style={{ transformStyle: "preserve-3d", willChange: "transform" }}
     >
+      {/* Glare overlay — follows cursor position for Pokémon card shimmer effect */}
+      <div
+        ref={glareRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300"
+      />
+
       {/* Category + arrow */}
       <div className="flex items-center justify-between mb-3">
         <span className="text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)]">
@@ -63,7 +80,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <h3 className="text-sm font-semibold text-[var(--foreground)] mb-1">
           {project.title}
         </h3>
-        <p className="text-sm text-[var(--muted-foreground)] leading-relaxed line-clamp-2">
+        <p className="text-sm text-[var(--muted-foreground)] leading-relaxed line-clamp-2 max-w-prose">
           {project.description}
         </p>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Check } from "lucide-react";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { projects } from "@/lib/data";
 
@@ -21,24 +22,26 @@ export function ProjectsGrid() {
       <div className="flex flex-wrap gap-2 mb-8">
         <button
           onClick={() => setActiveTag(null)}
-          className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${
+          className={`inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${
             activeTag === null
-              ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)]"
+              ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)] font-medium"
               : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)]"
           }`}
         >
+          {activeTag === null && <Check size={10} strokeWidth={3} />}
           All
         </button>
         {allTags.map((tag) => (
           <button
             key={tag}
             onClick={() => toggle(tag)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${
+            className={`inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${
               activeTag === tag
-                ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)]"
+                ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)] font-medium"
                 : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)]"
             }`}
           >
+            {activeTag === tag && <Check size={10} strokeWidth={3} />}
             {tag}
           </button>
         ))}

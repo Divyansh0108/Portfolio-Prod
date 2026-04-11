@@ -86,8 +86,17 @@ export function FooterCTA() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="py-16 border-t border-[var(--border)]"
+      className="py-16 border-t border-[var(--border)] relative overflow-hidden"
     >
+      {/* Muted aurora blob — mirrors the hero for visual cohesion */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-20 -right-20 w-[420px] h-[320px] opacity-[0.04] dark:opacity-[0.04] blur-[100px]"
+        style={{
+          background: "radial-gradient(ellipse at 60% 50%, #6366f1 0%, #a855f7 40%, transparent 70%)",
+          animation: "aurora-drift 14s ease-in-out infinite alternate-reverse",
+        }}
+      />
       {/* 3-column CTA cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         {cards.map((card) => (

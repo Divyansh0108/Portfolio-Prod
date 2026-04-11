@@ -9,8 +9,9 @@ export function CustomCursor() {
   const visible = useRef(false);
 
   useEffect(() => {
-    // Don't show on touch devices
+    // Don't show on touch devices or when user prefers reduced motion
     if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ring = ringRef.current;
     if (!ring) return;

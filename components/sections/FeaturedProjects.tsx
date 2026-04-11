@@ -125,8 +125,8 @@ export function FeaturedProjects() {
         </div>
       </div>
 
-      {/* Scroll position dots — visible on mobile */}
-      <div className="flex sm:hidden justify-center gap-1.5 mt-4">
+      {/* Scroll position dots — visible on all screen sizes */}
+      <div className="flex justify-center gap-1.5 mt-4">
         {projects.map((_, i) => (
           <button
             key={i}

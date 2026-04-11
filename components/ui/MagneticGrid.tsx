@@ -31,6 +31,7 @@ export function MagneticGrid() {
     let mouse = { x: -9999, y: -9999 };
     let animFrame: number;
     let dots: Dot[] = [];
+    let isVisible = true;
 
     // ── Build dot grid to fill the viewport ─────────────────────────────────
     const buildGrid = () => {
@@ -63,8 +64,20 @@ export function MagneticGrid() {
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
 
+    // ── Pause loop when canvas is not visible ────────────────────────────────
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) draw();
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     // ── Animation loop ───────────────────────────────────────────────────────
     const draw = () => {
+      if (!isVisible) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Respect current theme
@@ -104,6 +117,7 @@ export function MagneticGrid() {
 
     return () => {
       cancelAnimationFrame(animFrame);
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
@@ -113,6 +127,8 @@ export function MagneticGrid() {
   return (
     <canvas
       ref={canvasRef}
+      aria-hidden="true"
+      role="presentation"
       className="pointer-events-none fixed inset-0 z-0"
     />
   );

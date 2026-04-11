@@ -22,6 +22,12 @@ export function useScrambleText(
   const startRef = useRef<number | null>(null);
 
   useEffect(() => {
+    // Skip animation entirely when user prefers reduced motion
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(target);
+      return;
+    }
+
     const timeoutId = setTimeout(() => {
       const animate = (now: number) => {
         if (startRef.current === null) startRef.current = now;

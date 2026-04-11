@@ -23,9 +23,9 @@
 }
 
 .dark {
-  /* Dark mode: pure black base, pure white text */
-  --background:        #000000;
-  --background-subtle: #0a0a0a;
+  /* Dark mode: near-black base (softer on OLED, improves grain/border visibility) */
+  --background:        #0a0a0a;
+  --background-subtle: #111111;
   --foreground:        #ffffff;
   --muted:             #171717;
   --muted-foreground:  #a3a3a3;
@@ -55,13 +55,13 @@ body {
     color 0.15s ease;
 }
 
-/* Custom cursor: hide default on desktop, restore on touch */
-@media (pointer: fine) {
+/* Custom cursor: hide default on desktop, restore on touch or reduced-motion */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
   *, *::before, *::after {
     cursor: none !important;
   }
 }
-@media (pointer: coarse) {
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     cursor: auto !important;
   }
