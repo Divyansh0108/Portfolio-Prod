@@ -63,11 +63,21 @@ export default function RootLayout({
           <ScrollProgress />
           <GrainOverlay />
           <CustomCursor />
+          {/* Frosted overlay — sits above canvas, behind all content */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-0 z-[1]"
+            style={{
+              backdropFilter: "blur(2px)",
+              WebkitBackdropFilter: "blur(2px)",
+              background: "var(--overlay-wash)",
+            }}
+          />
           <NavBar />
-          <main id="main-content" className="mx-auto max-w-3xl px-6">
+          <main id="main-content" className="relative z-10 mx-auto max-w-3xl px-6">
             <PageTransition>{children}</PageTransition>
           </main>
-          <div className="mx-auto max-w-3xl px-6">
+          <div className="relative z-10 mx-auto max-w-3xl px-6">
             <Footer />
           </div>
           <BackToTop />
