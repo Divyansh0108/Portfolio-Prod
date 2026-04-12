@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 
 // ─── Tuning constants ─────────────────────────────────────────────────────────
 const PARTICLE_COUNT   = 80;   // total floating particles
-const MAX_CONNECT_DIST = 140;  // px — max distance to draw a connecting line
 const PARTICLE_SPEED   = 0.35; // base drift speed
 const CURSOR_RADIUS    = 120;  // px — scatter influence radius
 const SCATTER_FORCE    = 1.8;  // scatter velocity magnitude
@@ -113,30 +112,6 @@ export function ParticleConstellation() {
         ctx.fill();
       }
 
-      // Draw connecting lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a  = particles[i];
-          const b  = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d  = Math.sqrt(dx * dx + dy * dy);
-
-          if (d < MAX_CONNECT_DIST) {
-            // Fade line as distance increases
-            const lineAlpha = isDark
-              ? 0.18 * (1 - d / MAX_CONNECT_DIST)
-              : 0.10 * (1 - d / MAX_CONNECT_DIST);
-
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(${r},${g},${b},${lineAlpha})`;
-            ctx.lineWidth   = 0.6;
-            ctx.stroke();
-          }
-        }
-      }
 
       animFrame = requestAnimationFrame(draw);
     };
