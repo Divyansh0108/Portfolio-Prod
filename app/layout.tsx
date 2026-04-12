@@ -8,7 +8,7 @@ import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { PageTransition } from "@/components/ui/PageTransition";
-import { InkDiffusion } from "@/components/ui/InkDiffusion";
+import { ParticleConstellation } from "@/components/ui/ParticleConstellation";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -59,7 +59,7 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <InkDiffusion />
+          <ParticleConstellation />
           <ScrollProgress />
           <GrainOverlay />
           <CustomCursor />

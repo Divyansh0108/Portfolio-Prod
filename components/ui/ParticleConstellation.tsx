@@ -1,0 +1,161 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+// ─── Tuning constants ─────────────────────────────────────────────────────────
+const PARTICLE_COUNT   = 80;   // total floating particles
+const MAX_CONNECT_DIST = 140;  // px — max distance to draw a connecting line
+const PARTICLE_SPEED   = 0.35; // base drift speed
+const CURSOR_RADIUS    = 120;  // px — scatter influence radius
+const SCATTER_FORCE    = 1.8;  // scatter velocity magnitude
+const RETURN_EASE      = 0.012; // how gently particles drift back to normal speed
+const DOT_RADIUS       = 1.4;  // particle dot size
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  baseVx: number; // original drift direction
+  baseVy: number;
+}
+
+export function ParticleConstellation() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animFrame: number;
+    let particles: Particle[] = [];
+    let mouse = { x: -9999, y: -9999 };
+
+    // ── Canvas sizing ─────────────────────────────────────────────────────────
+    const resize = () => {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      buildParticles();
+    };
+
+    const buildParticles = () => {
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = PARTICLE_SPEED * (0.4 + Math.random() * 0.6);
+        const vx    = Math.cos(angle) * speed;
+        const vy    = Math.sin(angle) * speed;
+        particles.push({
+          x:      Math.random() * canvas.width,
+          y:      Math.random() * canvas.height,
+          vx,
+          vy,
+          baseVx: vx,
+          baseVy: vy,
+        });
+      }
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // ── Mouse tracking ────────────────────────────────────────────────────────
+    const onMouseMove = (e: MouseEvent) => {
+      mouse = { x: e.clientX, y: e.clientY };
+    };
+    const onMouseLeave = () => {
+      mouse = { x: -9999, y: -9999 };
+    };
+    window.addEventListener("mousemove",   onMouseMove);
+    document.addEventListener("mouseleave", onMouseLeave);
+
+    // ── Draw loop ─────────────────────────────────────────────────────────────
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const isDark = document.documentElement.classList.contains("dark");
+      const [r, g, b] = isDark ? [255, 255, 255] : [0, 0, 0];
+
+      // Update + draw particles
+      for (const p of particles) {
+        // Cursor scatter
+        const dx   = p.x - mouse.x;
+        const dy   = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < CURSOR_RADIUS && dist > 0) {
+          const force = (1 - dist / CURSOR_RADIUS) * SCATTER_FORCE;
+          p.vx += (dx / dist) * force * 0.08;
+          p.vy += (dy / dist) * force * 0.08;
+        }
+
+        // Gently ease velocity back toward base drift
+        p.vx += (p.baseVx - p.vx) * RETURN_EASE;
+        p.vy += (p.baseVy - p.vy) * RETURN_EASE;
+
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap around edges
+        if (p.x < -10)                  p.x = canvas.width  + 10;
+        if (p.x > canvas.width  + 10)   p.x = -10;
+        if (p.y < -10)                  p.y = canvas.height + 10;
+        if (p.y > canvas.height + 10)   p.y = -10;
+
+        // Draw dot
+        const dotAlpha = isDark ? 0.55 : 0.35;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, DOT_RADIUS, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${dotAlpha})`;
+        ctx.fill();
+      }
+
+      // Draw connecting lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a  = particles[i];
+          const b  = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+
+          if (d < MAX_CONNECT_DIST) {
+            // Fade line as distance increases
+            const lineAlpha = isDark
+              ? 0.18 * (1 - d / MAX_CONNECT_DIST)
+              : 0.10 * (1 - d / MAX_CONNECT_DIST);
+
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(${r},${g},${b},${lineAlpha})`;
+            ctx.lineWidth   = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animFrame = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animFrame);
+      window.removeEventListener("resize",     resize);
+      window.removeEventListener("mousemove",  onMouseMove);
+      document.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      role="presentation"
+      className="pointer-events-none fixed inset-0 z-0"
+    />
+  );
+}
