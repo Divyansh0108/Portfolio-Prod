@@ -23,17 +23,17 @@
 }
 
 .dark {
-  /* Dark mode: near-black base (softer on OLED, improves grain/border visibility) */
-  --background:        #0a0a0a;
-  --background-subtle: #111111;
+  /* Dark mode: pure AMOLED black */
+  --background:        #000000;
+  --background-subtle: #0a0a0a;
   --foreground:        #ffffff;
-  --muted:             #171717;
+  --muted:             #0f0f0f;
   --muted-foreground:  #a3a3a3;
-  --border:            #262626;
-  --border-strong:     #404040;
+  --border:            #1a1a1a;
+  --border-strong:     #2e2e2e;
   --accent:            #ffffff;
   --accent-foreground: #000000;
-  --tag-bg:            #171717;
+  --tag-bg:            #0f0f0f;
   --tag-text:          #a3a3a3;
   --link:              #60a5fa;  /* softer blue on dark */
 }
