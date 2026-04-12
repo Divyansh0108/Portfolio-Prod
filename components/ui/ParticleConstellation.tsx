@@ -76,7 +76,7 @@ export function ParticleConstellation() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const isDark = document.documentElement.classList.contains("dark");
-      const [r, g, b] = isDark ? [255, 255, 255] : [0, 0, 0];
+      const [r, g, b] = [isDark ? 255 : 0, isDark ? 255 : 0, isDark ? 255 : 0];
 
       // Update + draw particles
       for (const p of particles) {
