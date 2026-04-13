@@ -60,15 +60,11 @@ export async function getMediumPosts(): Promise<MediumPost[]> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 4000);
 
-    let res: Response;
-    try {
-      res = await fetch(FEED_URL, {
-        next: { revalidate: 3600 }, // revalidate once per hour
-        signal: controller.signal,
-      });
-    } finally {
-      clearTimeout(timeout);
-    }
+    const res = await fetch(FEED_URL, {
+      next: { revalidate: 3600 }, // revalidate once per hour
+      signal: controller.signal,
+    }).finally(() => clearTimeout(timeout));
+
     if (!res.ok) return [];
     const xml = await res.text();
 

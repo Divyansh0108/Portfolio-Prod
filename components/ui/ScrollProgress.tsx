@@ -35,7 +35,7 @@ export function ScrollProgress() {
   return (
     <div
       id="scroll-progress"
-      className="fixed top-0 left-0 z-[100] h-[2px] bg-[var(--foreground)] transition-none"
+      className="fixed top-0 left-0 z-[49] h-[2px] bg-[var(--foreground)] transition-none"
       style={{ width: `${progress}%` }}
     />
   );

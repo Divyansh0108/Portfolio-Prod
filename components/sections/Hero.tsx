@@ -37,8 +37,18 @@ const FADE_MS   =  400; // fade-in / fade-out duration
 function CyclingTagline() {
   const [index,   setIndex]   = useState(0);
   const [phase,   setPhase]   = useState<"in" | "hold" | "out">("in");
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (reduced) return;
     let id: ReturnType<typeof setTimeout>;
     if (phase === "in") {
       id = setTimeout(() => setPhase("hold"), FADE_MS);
@@ -51,7 +61,16 @@ function CyclingTagline() {
       }, FADE_MS);
     }
     return () => clearTimeout(id);
-  }, [phase]);
+  }, [phase, reduced]);
+
+  // Reduced motion: show static comma-separated list of all domains
+  if (reduced) {
+    return (
+      <span>
+        {TAGLINE_PREFIX} {TAGLINE_WORDS.join(" ")}
+      </span>
+    );
+  }
 
   const opacity = phase === "hold" ? 1 : 0;
 
@@ -146,14 +165,18 @@ export function Hero() {
           {siteConfig.role}
         </p>
 
-        {/* Animated "open to opportunities" badge */}
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[var(--muted-foreground)] badge-breathe">
+        {/* Animated availability badge — links to contact */}
+        <a
+          href="/contact"
+          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[var(--muted-foreground)] badge-breathe hover:border-emerald-500/40 hover:text-[var(--foreground)] transition-colors duration-150"
+          aria-label="Open to ML roles and research — contact me"
+        >
           <span className="relative flex h-1.5 w-1.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
           </span>
-          Open to opportunities
-        </span>
+          Available · ML &amp; Research roles
+        </a>
       </motion.div>
 
       {/* Name — scramble + parallax + clip-path reveal */}
@@ -191,7 +214,7 @@ export function Hero() {
         animate="visible"
         variants={fadeUp}
         style={{ y: bioY }}
-        className="text-[0.925rem] text-[var(--muted-foreground)] leading-[1.8] max-w-xl mb-8 space-y-3"
+        className="text-[0.925rem] text-[var(--muted-foreground)] leading-[1.8] max-w-[65ch] mb-8 space-y-3"
       >
         {siteConfig.bio.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>

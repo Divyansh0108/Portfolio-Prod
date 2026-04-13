@@ -141,6 +141,27 @@ h3 {
   animation: badge-breathe 3s ease-in-out infinite;
 }
 
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Kill all CSS animations and transitions except opacity/color */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Kill the aurora drift specifically */
+  [style*="aurora-drift"] {
+    animation: none !important;
+  }
+  /* Keep opacity transitions (needed for cursor, badge, etc.) */
+  .badge-breathe {
+    animation: none !important;
+    box-shadow: none !important;
+  }
+}
+
 /* ─── Gradient section divider ───────────────────────────────────────────── */
 
 /* Replace flat border-t with a gradient that fades at both edges */

@@ -29,7 +29,7 @@ export function MagneticGrid() {
     if (!ctx) return;
 
     let mouse = { x: -9999, y: -9999 };
-    let animFrame: number;
+    let animFrame: number | null = null;
     let dots: Dot[] = [];
     let isVisible = true;
 
@@ -65,10 +65,12 @@ export function MagneticGrid() {
     document.addEventListener("mouseleave", onLeave);
 
     // ── Pause loop when canvas is not visible ────────────────────────────────
+    // Guard: only start a new loop if one isn't already running, to prevent
+    // duplicate RAF chains when the observer fires multiple times.
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
-        if (isVisible) draw();
+        if (isVisible && !animFrame) draw();
       },
       { threshold: 0 }
     );
@@ -76,7 +78,10 @@ export function MagneticGrid() {
 
     // ── Animation loop ───────────────────────────────────────────────────────
     const draw = () => {
-      if (!isVisible) return;
+      if (!isVisible) {
+        animFrame = null;
+        return;
+      }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -116,7 +121,7 @@ export function MagneticGrid() {
     draw();
 
     return () => {
-      cancelAnimationFrame(animFrame);
+      if (animFrame !== null) cancelAnimationFrame(animFrame);
       observer.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);

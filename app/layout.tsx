@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     default: `${siteConfig.name} — ${siteConfig.role}`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: `${siteConfig.tagline} ${siteConfig.bio}`,
+  description: `${siteConfig.tagline} ${siteConfig.bio.join(" ")}`,
   openGraph: {
     type: "website",
     locale: "en_US",
