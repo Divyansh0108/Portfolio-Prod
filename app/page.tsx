@@ -5,6 +5,7 @@ import { Experience } from "@/components/sections/Experience";
 import { FeaturedResearch } from "@/components/sections/FeaturedResearch";
 import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
 import { Skills } from "@/components/sections/Skills";
+import { Hobbies } from "@/components/sections/Hobbies";
 import { FeaturedWriting } from "@/components/sections/FeaturedWriting";
 import { Education } from "@/components/sections/Education";
 import { HonorsAwards } from "@/components/sections/HonorsAwards";
@@ -63,6 +64,7 @@ export default function HomePage() {
       <FeaturedProjects />
       <CurrentlyExploring />
       <Skills />
+      <Hobbies />
       <Suspense fallback={<FeaturedWritingSkeleton />}>
         <FeaturedWriting />
       </Suspense>

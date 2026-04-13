@@ -30,7 +30,7 @@ const clipReveal = {
 };
 
 const TAGLINE_PREFIX = "Turning research into real systems — across";
-const TAGLINE_WORDS  = ["ML.", "NLP.", "CV.", "Agents."];
+const TAGLINE_WORDS  = ["ML.", "NLP.", "CV.", "Agents.", "Neurosymbolic AI.", "SLMs.", "VLMs.", "Steering."];
 const HOLD_MS   = 1400; // how long the word stays visible
 const FADE_MS   =  400; // fade-in / fade-out duration
 
@@ -63,7 +63,7 @@ function CyclingTagline() {
           opacity,
           transition: `opacity ${FADE_MS}ms ease`,
           display: "inline-block",
-          minWidth: "3.5ch",
+          minWidth: "9ch",
         }}
       >
         {TAGLINE_WORDS[index]}

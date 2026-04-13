@@ -64,6 +64,54 @@ export const exploring: ExploreItem[] = [
   },
 ];
 
+// ─── Hobbies ────────────────────────────────────────────────────────────────
+
+export interface HobbyGroup {
+  label: string;
+  icon: string;
+  items: string[];
+  note?: string;
+}
+
+export const hobbyGroups: HobbyGroup[] = [
+  {
+    label: "Music",
+    icon: "♩",
+    items: ["Flute", "Guitar", "Cajón", "Piano", "Vocals"],
+    note: "Five instruments, one common thread — obsessive about texture and space.",
+  },
+  {
+    label: "Making things",
+    icon: "✦",
+    items: ["Painting", "Writing", "Poetry"],
+    note: "Different mediums, same compulsion — turning noise into signal.",
+  },
+  {
+    label: "Machines",
+    icon: "⌗",
+    items: ["PS5", "PC"],
+    note: "Equal parts gamer and spec-nerd. The build matters as much as the game.",
+  },
+  {
+    label: "Motion",
+    icon: "→",
+    items: ["Mountain biking", "Cyclist"],
+    note: "MTB trails, long rides, and the particular silence of a good descent.",
+  },
+  {
+    label: "Books",
+    icon: "◈",
+    items: ["Philosophy"],
+    note: "Mostly philosophy. The kind that raises more questions than it settles.",
+  },
+  {
+    label: "Martial arts",
+    icon: "⊕",
+    items: ["Katana", "Nunchaku", "Boxing", "Bō staff"],
+    note: "Each weapon teaches a different relationship with distance and timing.",
+  },
+];
+
 // ─── Honors & Awards ────────────────────────────────────────────────────────
 
 export const awards: Award[] = [
