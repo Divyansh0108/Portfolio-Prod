@@ -20,7 +20,8 @@ export function FeaturedProjects() {
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
     // Estimate active dot based on scroll position
     const cardWidth = el.scrollWidth / projects.length;
-    setActiveDot(Math.round(el.scrollLeft / cardWidth));
+    const dot = Math.round(el.scrollLeft / cardWidth);
+    setActiveDot(Math.min(Math.max(dot, 0), projects.length - 1));
   };
 
   useEffect(() => {

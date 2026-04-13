@@ -12,7 +12,8 @@ export function BackToTop() {
     const onScroll = () => {
       if (rafId === null) {
         rafId = requestAnimationFrame(() => {
-          setVisible(window.scrollY > 400);
+          const next = window.scrollY > 400;
+          setVisible((prev) => (prev === next ? prev : next));
           rafId = null;
         });
       }
@@ -31,7 +32,7 @@ export function BackToTop() {
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
-      className="fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--background)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--muted-foreground)] transition-all duration-200 shadow-sm"
+      className="fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 dark:border-white/10 backdrop-blur-lg bg-white/60 dark:bg-black/60 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-200 shadow-sm"
     >
       <ArrowUp size={16} />
     </button>

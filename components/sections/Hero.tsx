@@ -29,6 +29,49 @@ const clipReveal = {
   }),
 };
 
+const TAGLINE_PREFIX = "Turning research into real systems — across";
+const TAGLINE_WORDS  = ["ML.", "NLP.", "CV.", "Agents."];
+const HOLD_MS   = 1400; // how long the word stays visible
+const FADE_MS   =  400; // fade-in / fade-out duration
+
+function CyclingTagline() {
+  const [index,   setIndex]   = useState(0);
+  const [phase,   setPhase]   = useState<"in" | "hold" | "out">("in");
+
+  useEffect(() => {
+    let id: ReturnType<typeof setTimeout>;
+    if (phase === "in") {
+      id = setTimeout(() => setPhase("hold"), FADE_MS);
+    } else if (phase === "hold") {
+      id = setTimeout(() => setPhase("out"), HOLD_MS);
+    } else {
+      id = setTimeout(() => {
+        setIndex((i) => (i + 1) % TAGLINE_WORDS.length);
+        setPhase("in");
+      }, FADE_MS);
+    }
+    return () => clearTimeout(id);
+  }, [phase]);
+
+  const opacity = phase === "hold" ? 1 : 0;
+
+  return (
+    <span className="inline-flex items-baseline gap-[0.35em]">
+      <span>{TAGLINE_PREFIX}</span>
+      <span
+        style={{
+          opacity,
+          transition: `opacity ${FADE_MS}ms ease`,
+          display: "inline-block",
+          minWidth: "3.5ch",
+        }}
+      >
+        {TAGLINE_WORDS[index]}
+      </span>
+    </span>
+  );
+}
+
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -128,7 +171,7 @@ export function Hero() {
         </motion.h1>
       </div>
 
-      {/* Tagline — clip reveal */}
+      {/* Tagline — clip reveal + cycling domain words */}
       <div className="overflow-hidden mb-5">
         <motion.h2
           custom={3}
@@ -137,7 +180,7 @@ export function Hero() {
           variants={clipReveal}
           className="text-xl sm:text-2xl font-semibold text-[var(--muted-foreground)]"
         >
-          {siteConfig.tagline}
+          <CyclingTagline />
         </motion.h2>
       </div>
 

@@ -29,12 +29,18 @@ export function CustomCursor() {
       ring.style.opacity = "0";
     };
 
-    // Scale on interactive element hover
-    const onOverInteractive = () => {
-      ring.style.transform = "translate(-50%, -50%) scale(2)";
+    // Scale on interactive element hover — use event delegation: one pair of
+    // listeners on document, no MutationObserver needed, no per-element leaks.
+    const interactiveSelector = "a, button, [role=button], input, textarea, select";
+    const onOverInteractive = (e: MouseEvent) => {
+      if ((e.target as Element).closest(interactiveSelector)) {
+        ring.style.transform = "translate(-50%, -50%) scale(2)";
+      }
     };
-    const onLeaveInteractive = () => {
-      ring.style.transform = "translate(-50%, -50%) scale(1)";
+    const onLeaveInteractive = (e: MouseEvent) => {
+      if ((e.target as Element).closest(interactiveSelector)) {
+        ring.style.transform = "translate(-50%, -50%) scale(1)";
+      }
     };
 
     // Smooth follow with RAF
@@ -52,24 +58,15 @@ export function CustomCursor() {
 
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
-
-    const interactiveSelector = "a, button, [role=button], input, textarea, select";
-    const addInteractiveListeners = () => {
-      document.querySelectorAll(interactiveSelector).forEach((el) => {
-        el.addEventListener("mouseenter", onOverInteractive);
-        el.addEventListener("mouseleave", onLeaveInteractive);
-      });
-    };
-
-    addInteractiveListeners();
-    const observer = new MutationObserver(() => addInteractiveListeners());
-    observer.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener("mouseover", onOverInteractive);
+    document.addEventListener("mouseout", onLeaveInteractive);
 
     return () => {
       cancelAnimationFrame(raf);
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
-      observer.disconnect();
+      document.removeEventListener("mouseover", onOverInteractive);
+      document.removeEventListener("mouseout", onLeaveInteractive);
     };
   }, []);
 

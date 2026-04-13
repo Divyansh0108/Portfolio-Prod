@@ -11,7 +11,11 @@ export function ScrollProgress() {
     const compute = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+      const next = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setProgress((prev) => {
+        // Skip re-render if the change is sub-pixel (< 0.1%)
+        return Math.abs(next - prev) < 0.1 ? prev : next;
+      });
       rafId = null;
     };
 

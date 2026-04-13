@@ -33,10 +33,10 @@ export function NavBar() {
   return (
     <header
       id="navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-[var(--border)] backdrop-blur-md bg-[var(--background)]/80"
-          : "border-b border-transparent bg-transparent"
+          ? "border border-white/20 dark:border-white/10 backdrop-blur-lg bg-white/60 dark:bg-black/60 shadow-sm"
+          : "border border-transparent bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-3xl items-center justify-between px-6 h-14">
@@ -126,7 +126,7 @@ export function NavBar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden overflow-hidden border-t border-[var(--border)] bg-[var(--background)]"
+            className="md:hidden overflow-hidden border-t border-white/20 dark:border-white/10 backdrop-blur-lg bg-white/60 dark:bg-black/60"
           >
             <div className="px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link, i) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/link";
 
 interface ButtonProps {
@@ -17,6 +17,13 @@ const MAGNET_STRENGTH = 0.35; // 0–1, fraction of distance to pull
 
 function useMagnet<T extends HTMLElement>() {
   const ref = useRef<T>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const onMouseMove = (e: React.MouseEvent<T>) => {
     // Touch devices or reduced-motion: skip
@@ -40,8 +47,10 @@ function useMagnet<T extends HTMLElement>() {
     if (!el) return;
     el.style.transform = "translate(0, 0)";
     el.style.transition = "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
-    setTimeout(() => {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
       if (ref.current) ref.current.style.transition = "";
+      timeoutRef.current = null;
     }, 400);
   };
 
