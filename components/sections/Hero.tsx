@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { Github, Linkedin, BookOpen, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { siteConfig } from "@/lib/data";
+import { siteConfig, socialLinks } from "@/lib/data";
 import { useScrambleText } from "@/hooks/useScrambleText";
 
 const fadeUp = {
@@ -88,6 +89,69 @@ function CyclingTagline() {
         {TAGLINE_WORDS[index]}
       </span>
     </span>
+  );
+}
+
+const heroIconMap: Record<string, React.ReactNode> = {
+  github:           <Github size={13} />,
+  linkedin:         <Linkedin size={13} />,
+  "google-scholar": <span className="text-[10px] font-bold leading-none">GS</span>,
+  medium:           <BookOpen size={13} />,
+  kaggle:           <span className="text-[10px] font-bold leading-none">K</span>,
+  instagram:        <Instagram size={13} />,
+  peerlist:         <span className="text-[10px] font-bold leading-none">P</span>,
+};
+
+function GetInTouchButton() {
+  const [locked, setLocked] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const open = locked || hovered;
+
+  return (
+    <div
+      className="flex items-center"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <button
+        id="hero-get-in-touch"
+        onClick={() => setLocked((l) => !l)}
+        className="inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] px-3.5 py-1.5 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--muted)] active:scale-[0.98] transition-all duration-150 cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+      >
+        Get in touch
+      </button>
+
+      <motion.div
+        initial={false}
+        animate={{
+          maxWidth: open ? 320 : 0,
+          opacity: open ? 1 : 0,
+          marginLeft: open ? 8 : 0,
+        }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="overflow-hidden flex items-center gap-1.5"
+      >
+        {socialLinks.map((s, i) => (
+          <motion.a
+            key={s.icon}
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            initial={false}
+            animate={{ x: open ? 0 : -6, opacity: open ? 1 : 0 }}
+            transition={{
+              duration: 0.22,
+              ease: [0.16, 1, 0.3, 1],
+              delay: open ? i * 0.04 : 0,
+            }}
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--foreground)] transition-colors duration-150"
+          >
+            {heroIconMap[s.icon]}
+          </motion.a>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
@@ -233,9 +297,7 @@ export function Hero() {
         <Button href="/projects" variant="primary" id="hero-view-projects">
           View Projects
         </Button>
-        <Button href={`mailto:${siteConfig.email}`} variant="ghost" id="hero-get-in-touch">
-          Get in touch
-        </Button>
+        <GetInTouchButton />
       </motion.div>
     </section>
   );

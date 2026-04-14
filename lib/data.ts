@@ -267,6 +267,16 @@ export const projects: Project[] = [
 
 export const researchItems: ResearchItem[] = [
   {
+    id: "dexnet-sncs",
+    title: "DEXNet: An Ensemble Model Integrating DenseNet, EfficientNetB3, and XGBoost for Histopathological Lung and Colon Cancer Classification",
+    subtitle:
+      "Ensemble architecture combining DenseNet and EfficientNetB3 for hierarchical feature extraction with XGBoost classification, augmented by Class-Selective Image Preprocessing (CSIP), Grad-CAM interpretability, and a HIPAA/GDPR-compliant AWS deployment pipeline with federated learning provisions for multi-institutional privacy-preserving inference.",
+    date: "2026",
+    venue: "SN Computer Science · Vol. 7, No. 360 (2026)",
+    href: "https://link.springer.com/article/10.1007/s42979-026-04953-2",
+    tags: ["lung cancer detection", "histopathology", "deep learning", "ensemble learning", "CNN", "EfficientNetB3", "XGBoost"],
+  },
+  {
     id: "barbell-icdec",
     title: "Barbell Exercise Classification and Repetition Counting",
     subtitle:
@@ -283,6 +293,7 @@ export const researchItems: ResearchItem[] = [
 export const socialLinks: SocialLink[] = [
   { label: "GitHub", href: "https://github.com/Divyansh0108", icon: "github" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/divyansh-pandey-ds/", icon: "linkedin" },
+  { label: "Google Scholar", href: "https://scholar.google.com/citations?user=tlQfoXYAAAAJ", icon: "google-scholar" },
   { label: "Medium", href: "https://medium.com/@divyanshpandey0108", icon: "medium" },
   { label: "Kaggle", href: "https://www.kaggle.com/div0108", icon: "kaggle" },
   { label: "Instagram", href: "https://www.instagram.com/metadatahere", icon: "instagram" },

@@ -16,6 +16,7 @@ const iconMap: Record<string, React.ReactNode> = {
   medium: <BookOpen size={16} />,
   instagram: <Instagram size={16} />,
   kaggle: <span className="text-xs font-bold">K</span>,
+  "google-scholar": <span className="text-xs font-bold">GS</span>,
   peerlist: <span className="text-xs font-bold">P</span>,
 };
 
