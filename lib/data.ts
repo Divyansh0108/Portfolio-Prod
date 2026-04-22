@@ -20,7 +20,7 @@ export const siteConfig = {
   email: "divyanshpandey0108@gmail.com",
   phone: "+91 9305425557",
   location: "Lucknow, Uttar Pradesh, India",
-  resumeUrl: "/Resume.pdf",
+  resumeUrl: "/Divyansh_Resume.pdf",
 };
 
 

@@ -10,6 +10,7 @@ import { Education } from "@/components/sections/Education";
 import { HonorsAwards } from "@/components/sections/HonorsAwards";
 import { Volunteering } from "@/components/sections/Volunteering";
 import { FooterCTA } from "@/components/sections/FooterCTA";
+import { SectionNav } from "@/components/ui/SectionNav";
 import { siteConfig, socialLinks } from "@/lib/data";
 
 const personJsonLd = {
@@ -57,6 +58,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
+      <SectionNav />
       <Hero />
       <Experience />
       <FeaturedResearch />

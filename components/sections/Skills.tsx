@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { RevealText } from "@/components/ui/RevealText";
 
 const skillGroups = [
   {
@@ -8,6 +9,7 @@ const skillGroups = [
     dotColor: "rgb(59,130,246)",
     pillBg: "rgba(59,130,246,0.07)",
     pillBorder: "rgba(59,130,246,0.2)",
+    span: 1,
     skills: ["Python", "SQL", "Java", "C", "JavaScript", "MATLAB"],
   },
   {
@@ -15,6 +17,7 @@ const skillGroups = [
     dotColor: "rgb(168,85,247)",
     pillBg: "rgba(168,85,247,0.07)",
     pillBorder: "rgba(168,85,247,0.2)",
+    span: 2,
     skills: [
       "PyTorch", "TensorFlow", "Keras", "scikit-learn", "XGBoost",
       "Computer Vision", "NLP", "Federated Learning", "Generative AI",
@@ -26,6 +29,7 @@ const skillGroups = [
     dotColor: "rgb(139,92,246)",
     pillBg: "rgba(139,92,246,0.07)",
     pillBorder: "rgba(139,92,246,0.2)",
+    span: 2,
     skills: [
       "LangChain", "LangGraph", "LangServe", "LangSmith",
       "RAG Pipelines", "LLM Fine-tuning", "Ollama", "Groq",
@@ -37,6 +41,7 @@ const skillGroups = [
     dotColor: "rgb(16,185,129)",
     pillBg: "rgba(16,185,129,0.07)",
     pillBorder: "rgba(16,185,129,0.2)",
+    span: 1,
     skills: [
       "MLflow", "DVC", "DAGsHub", "BentoML", "Airflow", "Docker",
       "Kubernetes", "AWS (S3, EC2, IAM, RDS)", "GCP", "Azure",
@@ -48,6 +53,7 @@ const skillGroups = [
     dotColor: "rgb(245,158,11)",
     pillBg: "rgba(245,158,11,0.07)",
     pillBorder: "rgba(245,158,11,0.2)",
+    span: 1,
     skills: [
       "PostgreSQL", "MySQL", "MongoDB", "SQLite",
       "ChromaDB", "FAISS", "AstraDB",
@@ -58,6 +64,7 @@ const skillGroups = [
     dotColor: "rgb(244,63,94)",
     pillBg: "rgba(244,63,94,0.07)",
     pillBorder: "rgba(244,63,94,0.2)",
+    span: 2,
     skills: [
       "FastAPI", "Flask", "Django", "Streamlit",
       "Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly",
@@ -90,24 +97,27 @@ export function Skills() {
       variants={stagger}
       className="py-16 gradient-divider"
     >
-      <div className="overflow-hidden mb-6">
-        <motion.h2
-          variants={fadeUp}
+      <motion.div variants={fadeUp} className="mb-6">
+        <RevealText
+          text="Skills & Stack"
+          el="h2"
           className="text-base font-semibold text-[var(--foreground)]"
-          style={{ clipPath: "inset(0 0 0% 0)" }}
-          initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
-          whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Skills &amp; Stack
-        </motion.h2>
-      </div>
+        />
+      </motion.div>
 
-      <div className="space-y-5">
+      {/* Bento grid — 3 cols on md+, 1 col on mobile */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {skillGroups.map((group) => (
-          <motion.div key={group.label} variants={fadeUp}>
-            <div className="flex items-center gap-2 mb-2">
+          <motion.div
+            key={group.label}
+            variants={fadeUp}
+            className="rounded-xl border border-[var(--border)] p-4 bg-[var(--background-subtle)] hover:border-[var(--border-strong)] transition-colors duration-200"
+            style={{
+              gridColumn: `span ${group.span}`,
+            }}
+          >
+            {/* Label row */}
+            <div className="flex items-center gap-2 mb-3">
               <motion.span
                 className="h-1.5 w-1.5 rounded-full flex-shrink-0"
                 style={{ backgroundColor: group.dotColor }}
@@ -120,6 +130,8 @@ export function Skills() {
                 {group.label}
               </p>
             </div>
+
+            {/* Pills */}
             <div className="flex flex-wrap gap-1.5">
               {group.skills.map((skill) => (
                 <span

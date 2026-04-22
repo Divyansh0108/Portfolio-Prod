@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Briefcase } from "lucide-react";
+import { RevealText } from "@/components/ui/RevealText";
 
 const experiences = [
   {
@@ -52,6 +54,31 @@ const fadeUp = {
 };
 
 export function Experience() {
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    const ratios = new Array(experiences.length).fill(0);
+
+    experiences.forEach((_, i) => {
+      const el = itemRefs.current[i];
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          ratios[i] = entry.intersectionRatio;
+          const best = ratios.indexOf(Math.max(...ratios));
+          setActiveIndex(best);
+        },
+        { threshold: [0, 0.25, 0.5, 0.75, 1] }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
   return (
     <motion.section
       id="experience"
@@ -61,17 +88,19 @@ export function Experience() {
       variants={stagger}
       className="py-16 border-t border-[var(--border)]"
     >
-      <motion.h2
-        variants={fadeUp}
-        className="text-base font-semibold text-[var(--foreground)] mb-6"
-      >
-        Experience
-      </motion.h2>
+      <motion.div variants={fadeUp} className="mb-6">
+        <RevealText
+          text="Experience"
+          el="h2"
+          className="text-base font-semibold text-[var(--foreground)]"
+        />
+      </motion.div>
 
       <div className="space-y-6">
         {experiences.map((exp, i) => (
           <motion.div
             key={i}
+            ref={(el) => { itemRefs.current[i] = el; }}
             variants={fadeUp}
             className="relative flex gap-4"
           >
@@ -80,15 +109,28 @@ export function Experience() {
               <div className="absolute left-[15px] top-[36px] bottom-[-24px] w-px bg-[var(--border)]" />
             )}
 
-            {/* Icon */}
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md border border-[var(--border)] bg-[var(--background)]">
-              <Briefcase size={13} className="text-[var(--muted-foreground)]" />
+            {/* Icon — glows when active */}
+            <div
+              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md border bg-[var(--background)] transition-all duration-300"
+              style={{
+                borderColor: activeIndex === i ? "var(--foreground)" : "var(--border)",
+                boxShadow: activeIndex === i ? "0 0 0 3px rgba(var(--foreground-rgb, 0,0,0), 0.06)" : "none",
+              }}
+            >
+              <Briefcase
+                size={13}
+                className="transition-colors duration-300"
+                style={{ color: activeIndex === i ? "var(--foreground)" : "var(--muted-foreground)" }}
+              />
             </div>
 
             {/* Content */}
             <div className="flex flex-col gap-1 pb-2 flex-1 min-w-0">
               <div className="flex flex-wrap items-baseline gap-x-2">
-                <h3 className="text-sm font-semibold text-[var(--foreground)]">
+                <h3
+                  className="text-sm font-semibold transition-colors duration-300"
+                  style={{ color: activeIndex === i ? "var(--foreground)" : "var(--muted-foreground)" }}
+                >
                   {exp.role}
                 </h3>
                 <span className="text-xs text-[var(--muted-foreground)]">

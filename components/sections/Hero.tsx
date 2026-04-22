@@ -184,13 +184,33 @@ export function Hero() {
   return (
     <section ref={sectionRef} id="hero" className="relative pt-32 pb-16 overflow-hidden">
 
-      {/* ── Aurora blob ─────────────────────────────────────────────────────── */}
+      {/* ── Ambient glow blobs ──────────────────────────────────────────────── */}
+      {/* Primary: indigo-purple, top-left */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-20 -left-20 w-[480px] h-[380px] opacity-[0.07] dark:opacity-[0.06] blur-[90px]"
         style={{
           background: "radial-gradient(ellipse at 40% 50%, #6366f1 0%, #a855f7 40%, transparent 70%)",
           animation: "aurora-drift 14s ease-in-out infinite alternate",
+        }}
+      />
+      {/* Secondary: amber-warm, top-right */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-10 -right-20 w-[360px] h-[280px] opacity-[0.05] dark:opacity-[0.045] blur-[80px]"
+        style={{
+          background: "radial-gradient(ellipse at 60% 40%, #f59e0b 0%, #ef4444 50%, transparent 70%)",
+          animation: "aurora-drift 18s ease-in-out infinite alternate-reverse",
+        }}
+      />
+      {/* Tertiary: teal-cyan, bottom-left */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[60%] -left-10 w-[300px] h-[220px] opacity-[0.045] dark:opacity-[0.035] blur-[70px]"
+        style={{
+          background: "radial-gradient(ellipse at 50% 50%, #06b6d4 0%, #3b82f6 50%, transparent 70%)",
+          animation: "aurora-drift 22s ease-in-out infinite alternate",
+          animationDelay: "4s",
         }}
       />
 
