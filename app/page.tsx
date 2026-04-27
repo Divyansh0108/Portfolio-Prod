@@ -11,7 +11,7 @@ import { HonorsAwards } from "@/components/sections/HonorsAwards";
 import { Volunteering } from "@/components/sections/Volunteering";
 import { FooterCTA } from "@/components/sections/FooterCTA";
 import { SectionNav } from "@/components/ui/SectionNav";
-import { siteConfig, socialLinks } from "@/lib/data";
+import { siteConfig, socialLinks, getBaseUrl } from "@/lib/data";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -20,10 +20,23 @@ const personJsonLd = {
   jobTitle: siteConfig.role,
   description: siteConfig.tagline,
   email: siteConfig.email,
-  url: process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000",
+  url: getBaseUrl(),
+  image: `${getBaseUrl()}/headshot.jpg`,
   sameAs: socialLinks.map((l) => l.href),
+  knowsAbout: [
+    "Machine Learning",
+    "Deep Learning",
+    "Natural Language Processing",
+    "Computer Vision",
+    "AI Agents",
+    "Federated Learning",
+    "Neurosymbolic AI",
+    "MLOps",
+  ],
+  alumniOf: {
+    "@type": "EducationalOrganization",
+    name: "Manipal University Jaipur",
+  },
 };
 
 function FeaturedWritingSkeleton() {

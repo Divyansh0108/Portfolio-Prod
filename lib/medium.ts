@@ -71,26 +71,36 @@ export async function getMediumPosts(): Promise<MediumPost[]> {
     // Split on <item> boundaries
     const itemBlocks = xml.split("<item>").slice(1);
 
-    return itemBlocks.map((block, idx) => {
-      const title = getTag(block, "title");
-      const link = getTag(block, "link");
-      const pubDate = getTag(block, "pubDate");
-      const description = getTag(block, "description");
-      const tags = getAllTags(block, "category").slice(0, 4);
+    const posts = itemBlocks
+      .map((block, idx) => {
+        const title = getTag(block, "title");
+        const link = getTag(block, "link");
+        const pubDate = getTag(block, "pubDate");
+        const description = getTag(block, "description");
+        const tags = getAllTags(block, "category").slice(0, 4);
 
-      const date = pubDate
-        ? new Date(pubDate).toISOString().split("T")[0]
-        : new Date().toISOString().split("T")[0];
+        // Skip malformed items missing the essentials.
+        if (!title || !link) return null;
 
-      return {
-        id: `medium-${idx}`,
-        title,
-        subtitle: extractSnippet(description),
-        date,
-        href: cleanHref(link),
-        tags,
-      };
-    });
+        const parsed = pubDate ? new Date(pubDate) : null;
+        const date =
+          parsed && !Number.isNaN(parsed.getTime())
+            ? parsed.toISOString().split("T")[0]
+            : new Date().toISOString().split("T")[0];
+
+        return {
+          id: `medium-${idx}`,
+          title,
+          subtitle: extractSnippet(description),
+          date,
+          href: cleanHref(link),
+          tags,
+        } as MediumPost;
+      })
+      .filter((p): p is MediumPost => p !== null);
+
+    // Sort newest-first defensively — RSS feeds usually do this but not always.
+    return posts.sort((a, b) => b.date.localeCompare(a.date));
   } catch {
     return [];
   }

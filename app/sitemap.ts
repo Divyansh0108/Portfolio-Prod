@@ -1,20 +1,15 @@
 import type { MetadataRoute } from "next";
-
-function getBaseUrl() {
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-  return "http://localhost:3000";
-}
+import { getBaseUrl } from "@/lib/data";
 
 // Static last-modified dates — update these when pages change meaningfully.
 // Using new Date() on every build falsely signals constant freshness to crawlers.
 const PAGE_DATES = {
-  home:     new Date("2025-04-11"),
-  projects: new Date("2025-04-11"),
-  research: new Date("2024-12-01"),
-  writing:  new Date("2025-04-11"), // refreshed at ISR revalidation time (30 min)
+  home:     new Date("2026-04-22"),
+  projects: new Date("2026-04-22"),
+  research: new Date("2026-01-15"),
+  writing:  new Date("2026-04-22"), // refreshed at ISR revalidation time (30 min)
   contact:  new Date("2025-01-01"),
+  beyond:   new Date("2026-04-22"),
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -44,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: PAGE_DATES.writing,
       changeFrequency: "weekly",
       priority: 0.8,
+    },
+    {
+      url: `${base}/beyond`,
+      lastModified: PAGE_DATES.beyond,
+      changeFrequency: "monthly",
+      priority: 0.4,
     },
     {
       url: `${base}/contact`,

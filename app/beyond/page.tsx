@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import { hobbyGroups } from "@/lib/data";
 
@@ -22,8 +22,10 @@ const S = {
 };
 
 export default function BeyondPage() {
-  // Paint the body bg so no white flash bleeds around the container
-  useEffect(() => {
+  // Paint the body bg so no white flash bleeds around the container.
+  // useLayoutEffect runs before paint, so the swap happens synchronously and
+  // we don't see a flash of the previous theme on route enter/exit.
+  useLayoutEffect(() => {
     const prev = document.body.style.backgroundColor;
     document.body.style.backgroundColor = S.bg;
     return () => { document.body.style.backgroundColor = prev; };
@@ -87,13 +89,13 @@ export default function BeyondPage() {
             className="text-3xl sm:text-4xl font-bold tracking-tight leading-[1.15] mb-4"
             style={{ color: S.textPrimary }}
           >
-            What I do when I'm not shipping.
+            What I do when I&apos;m not shipping.
           </h1>
           <p
             className="text-sm leading-relaxed max-w-lg"
             style={{ color: S.textSecond }}
           >
-            The researcher is just one layer. Here's the rest of it —
+            The researcher is just one layer. Here&apos;s the rest of it —
             the obsessions, the instruments, the miles, and the margins
             filled with half-finished poems.
           </p>

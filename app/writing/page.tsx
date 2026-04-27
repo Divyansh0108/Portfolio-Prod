@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { TagPill } from "@/components/ui/TagPill";
 import { getMediumPosts } from "@/lib/medium";
+import { getBaseUrl } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Writing",
@@ -20,9 +21,7 @@ export const revalidate = 1800;
 export default async function WritingPage() {
   const posts = await getMediumPosts();
 
-  const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000";
+  const baseUrl = getBaseUrl();
 
   const articlesJsonLd = {
     "@context": "https://schema.org",

@@ -26,8 +26,11 @@ function useMagnet<T extends HTMLElement>() {
   }, []);
 
   const onMouseMove = (e: React.MouseEvent<T>) => {
-    // Touch devices or reduced-motion: skip
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Touch devices or reduced-motion: skip the magnetic pull entirely.
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();

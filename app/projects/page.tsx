@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
-import { projects } from "@/lib/data";
+import { projects, getBaseUrl } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Open-source tools, libraries, and apps I've shipped.",
+  description: "Open-source tools, libraries, and apps I've shipped — RAG systems, fraud detection, federated learning, and more.",
 };
 
-const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+const baseUrl = getBaseUrl();
 
 const projectsJsonLd = {
   "@context": "https://schema.org",
@@ -50,7 +48,7 @@ export default function ProjectsPage() {
         </h1>
         <p className="mt-2 text-[0.925rem] text-[var(--muted-foreground)] max-w-lg">
           A collection of open-source tools, experiments, and production systems
-          I've built or contributed to.
+          I&apos;ve built or contributed to.
         </p>
       </div>
 

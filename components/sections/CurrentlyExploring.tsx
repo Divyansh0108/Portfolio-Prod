@@ -38,6 +38,8 @@ export function CurrentlyExploring() {
               onClick={() => toggle(i)}
               className="w-full flex items-center justify-between gap-4 py-4 text-left group"
               aria-expanded={openIndex === i}
+              aria-controls={`exploring-panel-${i}`}
+              id={`exploring-trigger-${i}`}
             >
               {/* Topic — dot indicator + label */}
               <span className="flex items-center gap-2.5 text-[0.925rem] font-semibold text-[var(--foreground)] group-hover:text-[var(--muted-foreground)] transition-colors duration-150">
@@ -66,6 +68,9 @@ export function CurrentlyExploring() {
               {openIndex === i && (
                 <motion.div
                   key="content"
+                  id={`exploring-panel-${i}`}
+                  role="region"
+                  aria-labelledby={`exploring-trigger-${i}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}

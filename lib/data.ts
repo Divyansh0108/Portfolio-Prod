@@ -8,6 +8,25 @@ import type {
 
 // ─── Site Config ────────────────────────────────────────────────────────────
 
+/**
+ * Centralized base URL resolver. Prefers an explicit production override
+ * (NEXT_PUBLIC_SITE_URL) so the site works on a custom domain, falls back to
+ * Vercel's preview URL, then to localhost for `next dev`.
+ */
+export function getBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    const url = process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+    return url.startsWith("http") ? url : `https://${url}`;
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return "http://localhost:3000";
+}
+
 export const siteConfig = {
   name: "Divyansh Pandey",
   role: "ML Engineer · Researcher · Builder",

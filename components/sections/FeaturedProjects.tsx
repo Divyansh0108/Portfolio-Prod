@@ -18,9 +18,13 @@ export function FeaturedProjects() {
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 4);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-    // Estimate active dot based on scroll position
-    const cardWidth = el.scrollWidth / projects.length;
-    const dot = Math.round(el.scrollLeft / cardWidth);
+    // Use the first card's actual width (incl. gap) so dot tracking remains
+    // accurate regardless of breakpoint or padding changes.
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    const stride = firstCard
+      ? firstCard.getBoundingClientRect().width + 16 // gap-4 = 16px
+      : el.scrollWidth / Math.max(projects.length, 1);
+    const dot = Math.round(el.scrollLeft / Math.max(stride, 1));
     setActiveDot(Math.min(Math.max(dot, 0), projects.length - 1));
   };
 
@@ -108,7 +112,14 @@ export function FeaturedProjects() {
 
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
+          role="region"
+          aria-label="Featured projects carousel"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowRight") { e.preventDefault(); scroll("right"); }
+            else if (e.key === "ArrowLeft") { e.preventDefault(); scroll("left"); }
+          }}
+          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] rounded-lg"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -135,8 +146,11 @@ export function FeaturedProjects() {
             onClick={() => {
               const el = scrollRef.current;
               if (!el) return;
-              const cardWidth = el.scrollWidth / projects.length;
-              el.scrollTo({ left: cardWidth * i, behavior: "smooth" });
+              const firstCard = el.firstElementChild as HTMLElement | null;
+              const stride = firstCard
+                ? firstCard.getBoundingClientRect().width + 16
+                : el.scrollWidth / Math.max(projects.length, 1);
+              el.scrollTo({ left: stride * i, behavior: "smooth" });
             }}
             className={`h-1.5 rounded-full transition-all duration-200 ${
               i === activeDot

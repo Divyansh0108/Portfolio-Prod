@@ -70,6 +70,7 @@ export function Footer() {
               <Link
                 href={siteConfig.resumeUrl}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-[var(--foreground)] transition-colors duration-150"
               >
                 Resume

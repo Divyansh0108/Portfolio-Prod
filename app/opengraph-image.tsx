@@ -63,9 +63,9 @@ export default function Image() {
             color: "#525252",
           }}
         >
-          <span>IIT Hyderabad (Vigil Labs)</span>
-          <span>·</span>
           <span>Springer Nature Author</span>
+          <span>·</span>
+          <span>IIT Hyderabad · IAIRO</span>
           <span>·</span>
           <span>3× Dean&apos;s List</span>
         </div>

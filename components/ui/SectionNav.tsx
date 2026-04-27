@@ -32,7 +32,8 @@ export function SectionNav() {
             (a, b) => (b[1] > a[1] ? b : a),
             ["hero", 0]
           );
-          setActiveId(best[0]);
+          // Only re-render when the active section actually changes.
+          setActiveId((prev) => (prev === best[0] ? prev : best[0]));
         },
         { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
       );
@@ -65,9 +66,17 @@ export function SectionNav() {
           <button
             key={id}
             onClick={() => {
-              document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              const target = document.getElementById(id);
+              if (!target) return;
+              // Account for the fixed navbar (h-14 = 56px) with a little extra
+              // breathing room so the section heading isn't kissing the nav.
+              const navOffset = 72;
+              const top =
+                target.getBoundingClientRect().top + window.scrollY - navOffset;
+              window.scrollTo({ top, behavior: "smooth" });
             }}
-            aria-label={label}
+            aria-label={`Scroll to ${label}`}
+            aria-current={isActive ? "location" : undefined}
             title={label}
             className="group relative flex items-center justify-end gap-2"
           >

@@ -68,7 +68,7 @@ export function Experience() {
         ([entry]) => {
           ratios[i] = entry.intersectionRatio;
           const best = ratios.indexOf(Math.max(...ratios));
-          setActiveIndex(best);
+          setActiveIndex((prev) => (prev === best ? prev : best));
         },
         { threshold: [0, 0.25, 0.5, 0.75, 1] }
       );
@@ -104,9 +104,15 @@ export function Experience() {
             variants={fadeUp}
             className="relative flex gap-4"
           >
-            {/* Timeline line */}
+            {/* Timeline line — draws downward on scroll entry */}
             {i < experiences.length - 1 && (
-              <div className="absolute left-[15px] top-[36px] bottom-[-24px] w-px bg-[var(--border)]" />
+              <motion.div
+                className="absolute left-[15px] top-[36px] bottom-[-24px] w-px bg-[var(--border)]"
+                style={{ transformOrigin: "top", scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
+              />
             )}
 
             {/* Icon — glows when active */}

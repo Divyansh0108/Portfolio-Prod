@@ -42,6 +42,14 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset hash navigation / scrollIntoView so section headings clear the
+     fixed navbar (h-14 = 56px) instead of being hidden underneath it. */
+  scroll-padding-top: 72px;
+}
+
+/* Apply scroll-margin to all section anchors as a defensive baseline. */
+section[id] {
+  scroll-margin-top: 72px;
 }
 
 body {

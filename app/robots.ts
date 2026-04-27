@@ -1,9 +1,8 @@
 import type { MetadataRoute } from "next";
+import { getBaseUrl } from "@/lib/data";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000";
+  const base = getBaseUrl();
 
   return {
     rules: {
@@ -11,5 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: `${base}/sitemap.xml`,
+    host: base,
   };
 }

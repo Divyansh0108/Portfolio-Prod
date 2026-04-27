@@ -2,16 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { TagPill } from "@/components/ui/TagPill";
-import { researchItems } from "@/lib/data";
+import { researchItems, getBaseUrl } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Research",
   description: "Publications and research by Divyansh Pandey in machine learning, computer vision, and federated learning.",
 };
 
-const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+const baseUrl = getBaseUrl();
 
 const researchJsonLd = {
   "@context": "https://schema.org",

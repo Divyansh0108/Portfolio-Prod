@@ -25,12 +25,26 @@ export function ParticleConstellation() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Respect users who prefer reduced motion — skip the animation entirely.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animFrame: number;
+    let animFrame: number | null = null;
     let particles: Particle[] = [];
     let mouse = { x: -9999, y: -9999 };
+    let isDark = document.documentElement.classList.contains("dark");
+
+    // ── Theme observer: only re-read isDark when <html class> changes ────────
+    const themeObserver = new MutationObserver(() => {
+      isDark = document.documentElement.classList.contains("dark");
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     // ── Canvas sizing ─────────────────────────────────────────────────────────
     const resize = () => {
@@ -74,12 +88,11 @@ export function ParticleConstellation() {
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const isDark = document.documentElement.classList.contains("dark");
-      const [r, g, b] = [isDark ? 255 : 0, isDark ? 255 : 0, isDark ? 255 : 0];
+      const channel = isDark ? 255 : 0;
+      const dotAlpha = isDark ? 0.55 : 0.35;
+      ctx.fillStyle = `rgba(${channel},${channel},${channel},${dotAlpha})`;
 
-      // Update + draw particles
       for (const p of particles) {
-        // Cursor scatter
         const dx   = p.x - mouse.x;
         const dy   = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -90,38 +103,51 @@ export function ParticleConstellation() {
           p.vy += (dy / dist) * force * 0.08;
         }
 
-        // Gently ease velocity back toward base drift
         p.vx += (p.baseVx - p.vx) * RETURN_EASE;
         p.vy += (p.baseVy - p.vy) * RETURN_EASE;
 
-        // Move
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap around edges
         if (p.x < -10)                  p.x = canvas.width  + 10;
         if (p.x > canvas.width  + 10)   p.x = -10;
         if (p.y < -10)                  p.y = canvas.height + 10;
         if (p.y > canvas.height + 10)   p.y = -10;
 
-        // Draw dot
-        const dotAlpha = isDark ? 0.55 : 0.35;
         ctx.beginPath();
         ctx.arc(p.x, p.y, DOT_RADIUS, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r},${g},${b},${dotAlpha})`;
         ctx.fill();
       }
 
-
       animFrame = requestAnimationFrame(draw);
     };
-    draw();
+
+    const start = () => {
+      if (animFrame === null) animFrame = requestAnimationFrame(draw);
+    };
+    const stop = () => {
+      if (animFrame !== null) {
+        cancelAnimationFrame(animFrame);
+        animFrame = null;
+      }
+    };
+
+    // Pause when tab is hidden — save CPU/battery.
+    const onVisibility = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    start();
 
     return () => {
-      cancelAnimationFrame(animFrame);
+      stop();
+      themeObserver.disconnect();
       window.removeEventListener("resize",     resize);
       window.removeEventListener("mousemove",  onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 

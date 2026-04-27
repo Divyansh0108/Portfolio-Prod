@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,8 +27,17 @@ export function NavBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  // Close mobile menu on route change. This is a legitimate sync from an
+  // external state (the URL) to component state, so the lint warning about
+  // setState-in-effect doesn't apply here.
+  const prevPathRef = useRef(pathname);
+  useEffect(() => {
+    if (prevPathRef.current !== pathname) {
+      prevPathRef.current = pathname;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMenuOpen(false);
+    }
+  }, [pathname]);
 
   const isBeyond = pathname === "/beyond";
 

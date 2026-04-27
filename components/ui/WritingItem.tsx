@@ -18,6 +18,8 @@ export function WritingItem({ article, showDate = false }: WritingItemProps) {
   return (
     <Link
       href={article.href}
+      target="_blank"
+      rel="noopener noreferrer"
       id={`writing-item-${article.id}`}
       className="group flex items-start justify-between gap-4 py-4 border-b border-[var(--border)] last:border-0 hover:opacity-80 transition-opacity duration-150"
     >

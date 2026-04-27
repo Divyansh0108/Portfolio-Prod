@@ -47,7 +47,7 @@ export function Hobbies() {
             className="text-2xl font-bold tracking-tight"
             style={{ color: "#f0ece6" }}
           >
-            What I do when I'm not shipping.
+            What I do when I&apos;m not shipping.
           </h2>
         </motion.div>
 

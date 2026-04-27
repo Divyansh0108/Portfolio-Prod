@@ -1,12 +1,34 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useSyncExternalStore } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { Github, Linkedin, BookOpen, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { siteConfig, socialLinks } from "@/lib/data";
 import { useScrambleText } from "@/hooks/useScrambleText";
+
+const subscribeReducedMotion = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const getReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const getServerReducedMotion = () => false;
+
+const subscribeMobile = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia("(max-width: 639px)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const getIsMobile = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(max-width: 639px)").matches;
+const getServerIsMobile = () => false;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 10 },
@@ -36,17 +58,13 @@ const HOLD_MS   = 1400; // how long the word stays visible
 const FADE_MS   =  400; // fade-in / fade-out duration
 
 function CyclingTagline() {
-  const [index,   setIndex]   = useState(0);
-  const [phase,   setPhase]   = useState<"in" | "hold" | "out">("in");
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const [index, setIndex] = useState(0);
+  const [phase, setPhase] = useState<"in" | "hold" | "out">("in");
+  const reduced = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    getServerReducedMotion
+  );
 
   useEffect(() => {
     if (reduced) return;
@@ -159,15 +177,12 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
 
   // Use shorter scramble target on small phones (< 640px) to prevent text overflow
-  const [scrambleTarget, setScrambleTarget] = useState(siteConfig.name);
-  useEffect(() => {
-    const update = () => {
-      setScrambleTarget(window.innerWidth < 640 ? "D. Pandey" : siteConfig.name);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
+  const isMobile = useSyncExternalStore(
+    subscribeMobile,
+    getIsMobile,
+    getServerIsMobile
+  );
+  const scrambleTarget = isMobile ? "D. Pandey" : siteConfig.name;
 
   const scrambledName = useScrambleText(scrambleTarget, 300, 1000);
 
@@ -230,8 +245,10 @@ export function Hero() {
               alt="Divyansh Pandey — profile photo"
               width={80}
               height={80}
+              sizes="80px"
               className="object-cover w-full h-full"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>

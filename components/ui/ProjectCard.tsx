@@ -1,11 +1,83 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { TagPill } from "./TagPill";
 import type { Project } from "@/lib/types";
+
+// Matches integers and decimals (with optional comma thousands separator)
+// e.g. "84", "2.5", "27,000", "99.5"
+const NUM_RE = /(\d[\d,]*(?:\.\d+)?)/g;
+
+function AnimatedBullet({ text, animate }: { text: string; animate: boolean }) {
+  const numbers = useMemo(() => {
+    const hits: { value: number; index: number; raw: string; isDecimal: boolean; hadComma: boolean }[] = [];
+    let m: RegExpExecArray | null;
+    NUM_RE.lastIndex = 0;
+    while ((m = NUM_RE.exec(text)) !== null) {
+      const raw = m[0];
+      hits.push({
+        value:     parseFloat(raw.replace(/,/g, "")),
+        index:     m.index,
+        raw,
+        isDecimal: raw.includes("."),
+        hadComma:  raw.includes(","),
+      });
+    }
+    return hits;
+  }, [text]);
+
+  const [counts, setCounts] = useState(() => numbers.map(() => 0));
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (!animate || startedRef.current || numbers.length === 0) return;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCounts(numbers.map((n) => n.value));
+      return;
+    }
+    startedRef.current = true;
+    const duration = 1300;
+    const startTime = performance.now();
+    let rafId: number;
+    const tick = (now: number) => {
+      const t = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // cubic easeOut
+      setCounts(numbers.map((n) => eased * n.value));
+      if (t < 1) rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [animate, numbers]);
+
+  if (numbers.length === 0) return <>{text}</>;
+
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  numbers.forEach((n, i) => {
+    parts.push(text.slice(last, n.index));
+    const c = counts[i];
+    let display: string;
+    if (n.isDecimal) {
+      display = c.toFixed(1);
+    } else if (n.hadComma) {
+      display = Math.round(c).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+      display = Math.round(c).toString();
+    }
+    parts.push(
+      <span key={i} className="tabular-nums font-semibold text-[var(--foreground)]">
+        {display}
+      </span>
+    );
+    last = n.index + n.raw.length;
+  });
+  parts.push(text.slice(last));
+
+  return <>{parts}</>;
+}
 
 interface ProjectCardProps {
   project: Project;
@@ -15,10 +87,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
+  const inView = useInView(cardRef, { once: true, margin: "0px 0px -60px 0px" });
 
   const onMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const card = cardRef.current;
     if (!card) return;
+    // Skip 3D tilt on touch / reduced-motion — no real cursor to track.
+    if (
+      typeof window !== "undefined" &&
+      (window.matchMedia("(pointer: coarse)").matches ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ) {
+      return;
+    }
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -115,7 +196,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             className="flex items-start gap-1.5 text-xs text-[var(--muted-foreground)]"
           >
             <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[var(--muted-foreground)]" />
-            <span className="line-clamp-1">{bullet}</span>
+            <span className="line-clamp-1">
+              <AnimatedBullet text={bullet} animate={inView} />
+            </span>
           </li>
         ))}
       </ul>
@@ -137,14 +220,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 className="flex items-start gap-1.5 text-xs text-[var(--muted-foreground)]"
               >
                 <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[var(--muted-foreground)]" />
-                <span>{bullet}</span>
+                <span>
+                  <AnimatedBullet text={bullet} animate={inView} />
+                </span>
               </li>
             ))}
           </motion.ul>
         )}
       </AnimatePresence>
 
-      {/* "Read more" hint when not hovered and there are extra bullets */}
+      {/* "Read more" hint — desktop only (touch devices have no hover) */}
       <AnimatePresence initial={false}>
         {!hovered && hasExtra && (
           <motion.span
@@ -153,7 +238,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="mt-2 text-xs font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-150"
+            className="mt-2 hidden [@media(hover:hover)]:inline-block text-xs font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-150"
           >
             Hover to expand →
           </motion.span>

@@ -1,8 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&";
+
+const subscribeReducedMotion = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const getReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const getServerReducedMotion = () => false;
 
 /**
  * Scramble-then-resolve text animation.
@@ -17,16 +28,18 @@ export function useScrambleText(
   delay = 0,
   duration = 900
 ): string {
+  const reduced = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    getServerReducedMotion
+  );
+
   const [display, setDisplay] = useState(() => target.replace(/\S/g, " "));
   const frameRef = useRef<number | null>(null);
   const startRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Skip animation entirely when user prefers reduced motion
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(target);
-      return;
-    }
+    if (reduced) return;
 
     const timeoutId = setTimeout(() => {
       const animate = (now: number) => {
@@ -63,7 +76,7 @@ export function useScrambleText(
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
       startRef.current = null;
     };
-  }, [target, delay, duration]);
+  }, [target, delay, duration, reduced]);
 
-  return display;
+  return reduced ? target : display;
 }
