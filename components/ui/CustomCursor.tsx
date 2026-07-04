@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-const TRAIL_SIZES  = [5, 3.5, 2.5] as const;
-const TRAIL_LERP   = [0.09, 0.06, 0.04] as const;
-const TRAIL_OPACITY = [0.55, 0.38, 0.22] as const;
+const TRAIL_SIZES  = [4, 3, 2] as const;
+const TRAIL_LERP   = [0.08, 0.055, 0.035] as const;
+const TRAIL_OPACITY = [0.34, 0.22, 0.12] as const;
 
 export function CustomCursor() {
   const ringRef  = useRef<HTMLDivElement>(null);
@@ -22,7 +22,6 @@ export function CustomCursor() {
   const visible  = useRef(false);
 
   useEffect(() => {
-    // Don't show on touch devices or when user prefers reduced motion
     if (window.matchMedia("(pointer: coarse)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -49,7 +48,6 @@ export function CustomCursor() {
       trails.forEach((t) => { if (t) t.style.opacity = "0"; });
     };
 
-    // Returns the best short label for an interactive element, or null
     const getLabel = (el: Element): string | null => {
       const ariaLabel = el.getAttribute("aria-label");
       if (ariaLabel) return ariaLabel;
@@ -69,14 +67,12 @@ export function CustomCursor() {
       const target = (e.target as Element).closest(interactiveSelector);
       if (!target) return;
 
-      // Skip if we're just moving between descendants of the same interactive
-      // element — prevents flicker as cursor crosses child boundaries.
       const related = e.relatedTarget as Element | null;
       if (related && related.closest && related.closest(interactiveSelector) === target) {
         return;
       }
 
-      ring.style.transform = "translate(-50%, -50%) scale(1.7)";
+      ring.style.transform = "translate(-50%, -50%) scale(1.35)";
 
       const text = getLabel(target);
       if (text) {
@@ -90,8 +86,6 @@ export function CustomCursor() {
       const fromInteractive = (e.target as Element).closest(interactiveSelector);
       if (!fromInteractive) return;
 
-      // Suppress when relatedTarget is still inside the same interactive
-      // element — only reset when we've actually left it.
       const related = e.relatedTarget as Element | null;
       if (related && related.closest && related.closest(interactiveSelector) === fromInteractive) {
         return;
@@ -102,11 +96,10 @@ export function CustomCursor() {
       label.style.transform = "translateY(4px)";
     };
 
-    // Smooth follow with RAF — ring, label, and trailing dots
     let raf: number;
     const animate = () => {
-      pos.current.x += (mouse.current.x - pos.current.x) * 0.15;
-      pos.current.y += (mouse.current.y - pos.current.y) * 0.15;
+      pos.current.x += (mouse.current.x - pos.current.x) * 0.18;
+      pos.current.y += (mouse.current.y - pos.current.y) * 0.18;
 
       const x = pos.current.x;
       const y = pos.current.y;
@@ -114,11 +107,9 @@ export function CustomCursor() {
       ring.style.left  = `${x}px`;
       ring.style.top   = `${y}px`;
 
-      // Label sits 18px below and 14px right of ring center
       label.style.left = `${x + 14}px`;
       label.style.top  = `${y + 18}px`;
 
-      // Trail dots: each lerps toward the previous position (comet tail effect)
       const sources = [pos.current, trailPos.current[0], trailPos.current[1]];
       trailPos.current.forEach((tp, i) => {
         tp.x += (sources[i].x - tp.x) * TRAIL_LERP[i];
@@ -150,18 +141,13 @@ export function CustomCursor() {
 
   return (
     <>
-      {/*
-       * Ring: mix-blend-mode difference → always visible regardless of theme.
-       * Label: fades in on interactive hover showing title/aria-label/text.
-       * Trail dots: 3 dots lagging behind with increasing delay (comet tail).
-       */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed z-[200] h-[28px] w-[28px] rounded-full bg-white opacity-0"
+        className="pointer-events-none fixed z-[200] h-[24px] w-[24px] rounded-full bg-white opacity-0"
         style={{
           mixBlendMode: "difference",
           transform: "translate(-50%, -50%) scale(1)",
-          transition: "transform 0.18s ease, opacity 0.2s ease",
+          transition: "transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth)",
         }}
       />
       <span
@@ -171,24 +157,45 @@ export function CustomCursor() {
           color: "#fff",
           mixBlendMode: "difference",
           transform: "translateY(4px)",
-          transition: "opacity 0.15s ease, transform 0.15s ease",
+          transition: "opacity 180ms var(--ease-smooth), transform 180ms var(--ease-smooth)",
         }}
       />
-      {([trail0, trail1, trail2] as const).map((ref, i) => (
-        <div
-          key={i}
-          ref={ref}
-          aria-hidden="true"
-          className="pointer-events-none fixed rounded-full bg-white opacity-0"
-          style={{
-            width:  TRAIL_SIZES[i],
-            height: TRAIL_SIZES[i],
-            mixBlendMode: "difference",
-            transform: "translate(-50%, -50%)",
-            zIndex: 198 - i,
-          }}
-        />
-      ))}
+      <div
+        ref={trail0}
+        aria-hidden="true"
+        className="pointer-events-none fixed rounded-full bg-white opacity-0"
+        style={{
+          width: TRAIL_SIZES[0],
+          height: TRAIL_SIZES[0],
+          mixBlendMode: "difference",
+          transform: "translate(-50%, -50%)",
+          zIndex: 198,
+        }}
+      />
+      <div
+        ref={trail1}
+        aria-hidden="true"
+        className="pointer-events-none fixed rounded-full bg-white opacity-0"
+        style={{
+          width: TRAIL_SIZES[1],
+          height: TRAIL_SIZES[1],
+          mixBlendMode: "difference",
+          transform: "translate(-50%, -50%)",
+          zIndex: 197,
+        }}
+      />
+      <div
+        ref={trail2}
+        aria-hidden="true"
+        className="pointer-events-none fixed rounded-full bg-white opacity-0"
+        style={{
+          width: TRAIL_SIZES[2],
+          height: TRAIL_SIZES[2],
+          mixBlendMode: "difference",
+          transform: "translate(-50%, -50%)",
+          zIndex: 196,
+        }}
+      />
     </>
   );
 }

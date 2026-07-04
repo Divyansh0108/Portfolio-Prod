@@ -29,7 +29,7 @@ export function Education() {
             B.Tech (Hons.) Computer Science Engineering — Major in AI &amp; ML
           </p>
           <p className="text-xs text-[var(--muted-foreground)]">
-            Sept 2022 – June 2026 · CGPA: <strong className="font-semibold text-[var(--foreground)]">9.07</strong>
+            Sept 2022 – June 2026 · CGPA: <strong className="font-semibold text-[var(--foreground)]">8.53</strong>
           </p>
           <p className="text-xs text-[var(--muted-foreground)] mt-1">
             AI, Machine Learning, Deep Learning, Computer Vision, NLP

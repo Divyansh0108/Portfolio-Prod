@@ -3,12 +3,12 @@
 import { useEffect, useRef } from "react";
 
 // ─── Tuning constants ─────────────────────────────────────────────────────────
-const PARTICLE_COUNT   = 80;   // total floating particles
-const PARTICLE_SPEED   = 0.35; // base drift speed
-const CURSOR_RADIUS    = 120;  // px — scatter influence radius
-const SCATTER_FORCE    = 1.8;  // scatter velocity magnitude
-const RETURN_EASE      = 0.012; // how gently particles drift back to normal speed
-const DOT_RADIUS       = 1.4;  // particle dot size
+const PARTICLE_COUNT   = 52;
+const PARTICLE_SPEED   = 0.22;
+const CURSOR_RADIUS    = 90;
+const SCATTER_FORCE    = 0.65;
+const RETURN_EASE      = 0.018;
+const DOT_RADIUS       = 1.15;
 
 interface Particle {
   x: number;

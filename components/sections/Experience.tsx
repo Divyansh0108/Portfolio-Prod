@@ -8,11 +8,18 @@ import { RevealText } from "@/components/ui/RevealText";
 const experiences = [
   {
     role: "AI Research Intern",
+    org: "Pragya",
+    type: "Internship",
+    period: "Jun 2026 – Present",
+    bullets: ["Supervisor: Dr. Amitava Das"],
+  },
+  {
+    role: "AI Research Intern - Remote",
     org: "Indian AI Research Organization (IAIRO)",
     type: "Internship",
     period: "Mar 2026 – Present",
     location: "Hybrid",
-    bullets: [],
+    bullets: ["Supervisor: Dr. Amit Sheth | Dr. Niyati Rawal"],
   },
   {
     role: "Machine Learning Researcher",
@@ -97,14 +104,17 @@ export function Experience() {
       </motion.div>
 
       <div className="space-y-6">
-        {experiences.map((exp, i) => (
-          <motion.div
-            key={i}
-            ref={(el) => { itemRefs.current[i] = el; }}
-            variants={fadeUp}
-            className="relative flex gap-4"
-          >
-            {/* Timeline line — draws downward on scroll entry */}
+        {experiences.map((exp, i) => {
+          const isCurrent = exp.period.includes("Present");
+          const isHighlighted = activeIndex === i || isCurrent;
+
+          return (
+            <motion.div
+              key={i}
+              ref={(el) => { itemRefs.current[i] = el; }}
+              variants={fadeUp}
+              className="relative flex gap-4"
+            >
             {i < experiences.length - 1 && (
               <motion.div
                 className="absolute left-[15px] top-[36px] bottom-[-24px] w-px bg-[var(--border)]"
@@ -115,27 +125,25 @@ export function Experience() {
               />
             )}
 
-            {/* Icon — glows when active */}
             <div
               className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md border bg-[var(--background)] transition-all duration-300"
               style={{
-                borderColor: activeIndex === i ? "var(--foreground)" : "var(--border)",
-                boxShadow: activeIndex === i ? "0 0 0 3px rgba(var(--foreground-rgb, 0,0,0), 0.06)" : "none",
+                borderColor: isHighlighted ? "var(--foreground)" : "var(--border)",
+                boxShadow: isHighlighted ? "0 0 0 3px rgba(var(--foreground-rgb, 0,0,0), 0.06)" : "none",
               }}
             >
               <Briefcase
                 size={13}
                 className="transition-colors duration-300"
-                style={{ color: activeIndex === i ? "var(--foreground)" : "var(--muted-foreground)" }}
+                style={{ color: isHighlighted ? "var(--foreground)" : "var(--muted-foreground)" }}
               />
             </div>
 
-            {/* Content */}
             <div className="flex flex-col gap-1 pb-2 flex-1 min-w-0">
               <div className="flex flex-wrap items-baseline gap-x-2">
                 <h3
                   className="text-sm font-semibold transition-colors duration-300"
-                  style={{ color: activeIndex === i ? "var(--foreground)" : "var(--muted-foreground)" }}
+                  style={{ color: isHighlighted ? "var(--foreground)" : "var(--muted-foreground)" }}
                 >
                   {exp.role}
                 </h3>
@@ -145,7 +153,8 @@ export function Experience() {
               </div>
               <p className="text-sm text-[var(--muted-foreground)]">{exp.org}</p>
               <p className="text-xs text-[var(--muted-foreground)]">
-                {exp.period} · {exp.location}
+                {exp.period}
+                {"location" in exp && exp.location ? ` · ${exp.location}` : ""}
               </p>
               {exp.bullets.length > 0 && (
                 <ul className="mt-1.5 space-y-1.5">
@@ -161,8 +170,9 @@ export function Experience() {
                 </ul>
               )}
             </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
     </motion.section>
   );

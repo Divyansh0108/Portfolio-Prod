@@ -39,7 +39,6 @@ const fadeUp = {
   }),
 };
 
-// Clip-path wipe: slides up from below a mask
 const clipReveal = {
   hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0 },
   visible: (i: number) => ({
@@ -54,8 +53,8 @@ const clipReveal = {
 
 const TAGLINE_PREFIX = "Turning research into real systems — across";
 const TAGLINE_WORDS  = ["ML.", "NLP.", "CV.", "Agents.", "Neurosymbolic AI.", "SLMs.", "VLMs.", "Steering."];
-const HOLD_MS   = 1400; // how long the word stays visible
-const FADE_MS   =  400; // fade-in / fade-out duration
+const HOLD_MS   = 1400;
+const FADE_MS   =  400;
 
 function CyclingTagline() {
   const [index, setIndex] = useState(0);
@@ -82,7 +81,6 @@ function CyclingTagline() {
     return () => clearTimeout(id);
   }, [phase, reduced]);
 
-  // Reduced motion: show static comma-separated list of all domains
   if (reduced) {
     return (
       <span>
@@ -175,8 +173,6 @@ function GetInTouchButton() {
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Use shorter scramble target on small phones (< 640px) to prevent text overflow
   const isMobile = useSyncExternalStore(
     subscribeMobile,
     getIsMobile,
@@ -186,7 +182,6 @@ export function Hero() {
 
   const scrambledName = useScrambleText(scrambleTarget, 300, 1000);
 
-  // Scroll parallax — layers move at different rates
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -197,10 +192,7 @@ export function Hero() {
   const ctaY    = useTransform(scrollYProgress, [0, 1], [0, -90]);
 
   return (
-    <section ref={sectionRef} id="hero" className="relative pt-32 pb-16 overflow-hidden">
-
-      {/* ── Ambient glow blobs ──────────────────────────────────────────────── */}
-      {/* Primary: indigo-purple, top-left */}
+    <section ref={sectionRef} id="hero" className="relative pt-32 pb-16">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-20 -left-20 w-[480px] h-[380px] opacity-[0.07] dark:opacity-[0.06] blur-[90px]"
@@ -209,7 +201,6 @@ export function Hero() {
           animation: "aurora-drift 14s ease-in-out infinite alternate",
         }}
       />
-      {/* Secondary: amber-warm, top-right */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-10 -right-20 w-[360px] h-[280px] opacity-[0.05] dark:opacity-[0.045] blur-[80px]"
@@ -218,7 +209,6 @@ export function Hero() {
           animation: "aurora-drift 18s ease-in-out infinite alternate-reverse",
         }}
       />
-      {/* Tertiary: teal-cyan, bottom-left */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute top-[60%] -left-10 w-[300px] h-[220px] opacity-[0.045] dark:opacity-[0.035] blur-[70px]"
@@ -229,7 +219,6 @@ export function Hero() {
         }}
       />
 
-      {/* Headshot */}
       <motion.div
         custom={0}
         initial="hidden"
@@ -254,7 +243,6 @@ export function Hero() {
         </div>
       </motion.div>
 
-      {/* Role label + badge */}
       <motion.div
         custom={1}
         initial="hidden"
@@ -266,7 +254,6 @@ export function Hero() {
           {siteConfig.role}
         </p>
 
-        {/* Animated availability badge — links to contact */}
         <a
           href="/contact"
           className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[var(--muted-foreground)] badge-breathe hover:border-emerald-500/40 hover:text-[var(--foreground)] transition-colors duration-150"
@@ -280,7 +267,6 @@ export function Hero() {
         </a>
       </motion.div>
 
-      {/* Name — scramble + parallax + clip-path reveal */}
       <div className="overflow-hidden mb-3">
         <motion.h1
           custom={2}
@@ -295,7 +281,6 @@ export function Hero() {
         </motion.h1>
       </div>
 
-      {/* Tagline — clip reveal + cycling domain words */}
       <div className="overflow-hidden mb-5">
         <motion.h2
           custom={3}
@@ -308,21 +293,19 @@ export function Hero() {
         </motion.h2>
       </div>
 
-      {/* Bio */}
       <motion.div
         custom={4}
         initial="hidden"
         animate="visible"
         variants={fadeUp}
         style={{ y: bioY }}
-        className="text-[0.925rem] text-[var(--muted-foreground)] leading-[1.8] max-w-[65ch] mb-8 space-y-3"
+        className="text-[0.925rem] text-[var(--muted-foreground)] leading-[1.8] max-w-[65ch] mb-7 space-y-3"
       >
         {siteConfig.bio.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>
         ))}
       </motion.div>
 
-      {/* CTA Buttons */}
       <motion.div
         custom={5}
         initial="hidden"

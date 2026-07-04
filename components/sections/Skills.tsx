@@ -105,7 +105,6 @@ export function Skills() {
         />
       </motion.div>
 
-      {/* Bento grid — 3 cols on md+, 1 col on mobile */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {skillGroups.map((group) => (
           <motion.div
@@ -116,7 +115,6 @@ export function Skills() {
               gridColumn: `span ${group.span}`,
             }}
           >
-            {/* Label row */}
             <div className="flex items-center gap-2 mb-3">
               <motion.span
                 className="h-1.5 w-1.5 rounded-full flex-shrink-0"
@@ -131,7 +129,6 @@ export function Skills() {
               </p>
             </div>
 
-            {/* Pills */}
             <div className="flex flex-wrap gap-1.5">
               {group.skills.map((skill) => (
                 <span

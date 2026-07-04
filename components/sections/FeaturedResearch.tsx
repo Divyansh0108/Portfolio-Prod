@@ -7,7 +7,7 @@ import { TagPill } from "@/components/ui/TagPill";
 import { researchItems } from "@/lib/data";
 
 export function FeaturedResearch() {
-  const paper = researchItems[0]; // Single published paper
+  const paper = researchItems[0];
 
   return (
     <motion.section

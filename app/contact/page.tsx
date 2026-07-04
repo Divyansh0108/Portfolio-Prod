@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Mail, Phone, MapPin, Github, Linkedin, Instagram, BookOpen, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Instagram, BookOpen, ArrowUpRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { siteConfig, socialLinks } from "@/lib/data";
@@ -20,22 +20,59 @@ const iconMap: Record<string, React.ReactNode> = {
   peerlist: <span className="text-xs font-bold">P</span>,
 };
 
+const contactFit = [
+  "Research collaborations",
+  "AI/ML internships",
+  "Production ML systems",
+  "Technical writing",
+];
+
 export default function ContactPage() {
   return (
     <div className="pt-32 pb-16">
-      <div className="max-w-lg">
+      <div className="max-w-2xl">
         <span className="text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)]">
           Get in touch
         </span>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)] mb-5">
-          Contact
+          Let&apos;s build something serious.
         </h1>
-        <p className="text-[0.925rem] text-[var(--muted-foreground)] leading-relaxed mb-10">
-          I&apos;m always open to discussing new projects, research collaborations,
-          or opportunities in ML/AI. The best way to reach me is by email.
+        <p className="text-[0.925rem] text-[var(--muted-foreground)] leading-relaxed mb-6 max-w-xl">
+          I&apos;m open to research collaborations, AI/ML roles, and ambitious
+          systems work across NLP, CV, agents, and production ML. Email is the
+          fastest way to reach me.
         </p>
 
-        {/* Contact details */}
+        <div className="mb-10 flex flex-wrap gap-2">
+          {contactFit.map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--background-subtle)] px-3 py-1.5 text-xs font-medium text-[var(--muted-foreground)]"
+            >
+              <Sparkles size={11} />
+              {item}
+            </span>
+          ))}
+        </div>
+
+        <div className="mb-12 flex flex-wrap items-center gap-3">
+          <Button
+            href={`mailto:${siteConfig.email}?subject=Opportunity%20/%20Collaboration`}
+            variant="primary"
+            id="contact-email-cta"
+          >
+            Email me
+          </Button>
+          <Button
+            href={siteConfig.resumeUrl}
+            external
+            variant="ghost"
+            id="contact-resume"
+          >
+            Download resume
+          </Button>
+        </div>
+
         <div className="flex flex-col gap-4 mb-12">
           <div className="flex items-center gap-2">
             <Link
@@ -63,20 +100,6 @@ export default function ContactPage() {
             {siteConfig.location}
           </div>
         </div>
-
-        {/* Resume button */}
-        <div className="flex items-center gap-3 mb-12">
-          <Button
-            href={siteConfig.resumeUrl}
-            external
-            variant="primary"
-            id="contact-resume"
-          >
-            Download resume
-          </Button>
-        </div>
-
-        {/* Social links */}
         <div className="border-t border-[var(--border)] pt-8">
           <p className="text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)] mb-4">
             Find me online

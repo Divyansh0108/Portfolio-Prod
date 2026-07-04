@@ -20,8 +20,6 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-// Keep description under ~160 chars for SEO snippets — concatenating the full
-// bio overflows and gets truncated awkwardly in search results.
 const SEO_DESCRIPTION = `${siteConfig.tagline} ML Engineer & Researcher with 2+ years building production-grade ML, NLP, CV, and AI Agent systems.`;
 
 export const metadata: Metadata = {
@@ -95,7 +93,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* Skip to main content — keyboard accessibility */}
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:bg-[var(--background)] focus:border focus:border-[var(--border)] focus:rounded-md focus:text-sm focus:font-medium focus:text-[var(--foreground)] focus:shadow-sm"

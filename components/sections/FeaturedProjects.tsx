@@ -18,8 +18,6 @@ export function FeaturedProjects() {
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 4);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-    // Use the first card's actual width (incl. gap) so dot tracking remains
-    // accurate regardless of breakpoint or padding changes.
     const firstCard = el.firstElementChild as HTMLElement | null;
     const stride = firstCard
       ? firstCard.getBoundingClientRect().width + 16 // gap-4 = 16px
@@ -43,7 +41,7 @@ export function FeaturedProjects() {
   const scroll = (dir: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const amount = el.clientWidth * 0.85;
+    const amount = el.clientWidth * 0.78;
     el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   };
 
@@ -53,10 +51,9 @@ export function FeaturedProjects() {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
       className="py-16 gradient-divider"
     >
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="overflow-hidden">
           <motion.h2
@@ -64,19 +61,18 @@ export function FeaturedProjects() {
             initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
             whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
             Projects
           </motion.h2>
         </div>
         <div className="flex items-center gap-3">
-          {/* Scroll arrows — visible on all screen sizes, 40px touch targets */}
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}
               aria-label="Scroll left"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] transition-[transform,border-color,color,opacity] duration-200 ease-[var(--ease-smooth)] hover:-translate-y-0.5 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
             >
               <ChevronLeft size={15} />
             </button>
@@ -84,7 +80,7 @@ export function FeaturedProjects() {
               onClick={() => scroll("right")}
               disabled={!canScrollRight}
               aria-label="Scroll right"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] transition-[transform,border-color,color,opacity] duration-200 ease-[var(--ease-smooth)] hover:-translate-y-0.5 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
             >
               <ChevronRight size={15} />
             </button>
@@ -93,7 +89,7 @@ export function FeaturedProjects() {
           <Link
             href="/projects"
             id="featured-projects-view-all"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--muted-foreground)] transition-[transform,border-color,color] duration-200 ease-[var(--ease-smooth)] hover:-translate-y-0.5 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)]"
           >
             View all
             <ArrowRight size={11} />
@@ -101,7 +97,6 @@ export function FeaturedProjects() {
         </div>
       </div>
 
-      {/* Horizontal scroll track */}
       <div className="relative">
         {canScrollRight && (
           <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
@@ -119,7 +114,7 @@ export function FeaturedProjects() {
             if (e.key === "ArrowRight") { e.preventDefault(); scroll("right"); }
             else if (e.key === "ArrowLeft") { e.preventDefault(); scroll("left"); }
           }}
-          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] rounded-lg"
+          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-proximity scroll-smooth scrollbar-hide focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] rounded-lg"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -137,7 +132,6 @@ export function FeaturedProjects() {
         </div>
       </div>
 
-      {/* Scroll position dots — visible on all screen sizes */}
       <div className="flex justify-center gap-1.5 mt-4">
         {projects.map((_, i) => (
           <button
@@ -152,7 +146,7 @@ export function FeaturedProjects() {
                 : el.scrollWidth / Math.max(projects.length, 1);
               el.scrollTo({ left: stride * i, behavior: "smooth" });
             }}
-            className={`h-1.5 rounded-full transition-all duration-200 ${
+            className={`h-1.5 rounded-full transition-[width,background-color,transform] duration-300 ease-[var(--ease-smooth)] hover:scale-125 ${
               i === activeDot
                 ? "w-4 bg-[var(--foreground)]"
                 : "w-1.5 bg-[var(--border)]"

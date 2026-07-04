@@ -4,66 +4,79 @@
   --font-sans: var(--font-sans);
 }
 
-/* ─── Design Tokens — Pure Black & White ────────────────────────────────── */
-
 :root {
-  /* Light mode: pure white base, true black text */
-  --background:        #ffffff;
-  --background-subtle: #fafafa;  /* very slight off-white for card insets */
-  --foreground:        #000000;
-  --muted:             #f5f5f5;  /* lightest gray for card/tag backgrounds */
-  --muted-foreground:  #666666;  /* mid-gray for secondary text — darkened from #737373 for WCAG AA contrast */
-  --border:            #e5e5e5;  /* light neutral border */
-  --border-strong:     #d4d4d4;  /* slightly stronger border on hover */
-  --accent:            #000000;  /* primary button: black */
-  --accent-foreground: #ffffff;  /* text on primary button: white */
-  --tag-bg:            #f5f5f5;
-  --tag-text:          #525252;
-  --link:              #2563eb;  /* ONLY colorful element — standard blue links */
+  --page-bg:           linear-gradient(135deg, #f7faff 0%, #eef4ff 46%, #ffffff 100%);
+  --background:        rgba(255, 255, 255, 0.86);
+  --background-subtle: rgba(255, 255, 255, 0.76);
+  --foreground:        #05070d;
+  --foreground-rgb:    5, 7, 13;
+  --muted:             rgba(15, 23, 42, 0.08);
+  --muted-foreground:  #4d596b;
+  --border:            rgba(15, 23, 42, 0.14);
+  --border-strong:     rgba(15, 23, 42, 0.32);
+  --accent:            #05070d;
+  --accent-foreground: #ffffff;
+  --tag-bg:            rgba(255, 255, 255, 0.78);
+  --tag-text:          #334155;
+  --link:              #2563eb;
+  --nav-bg:            rgba(255, 255, 255, 0.78);
+  --nav-border:        rgba(15, 23, 42, 0.12);
+  --nav-shadow:        0 18px 54px -42px rgba(15, 23, 42, 0.44);
+  --surface-blur:      blur(18px) saturate(1.18);
+  --ease-smooth:       cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:     180ms;
+  --duration-base:     280ms;
+  --duration-slow:     420ms;
 }
 
 .dark {
-  /* Dark mode: pure AMOLED black */
-  --background:        #000000;
-  --background-subtle: #0a0a0a;
-  --foreground:        #ffffff;
-  --muted:             #0f0f0f;
-  --muted-foreground:  #a3a3a3;
-  --border:            #1a1a1a;
-  --border-strong:     #2e2e2e;
+  --page-bg:           linear-gradient(135deg, #02040a 0%, #07111f 42%, #120d1d 100%);
+  --background:        rgba(8, 12, 20, 0.62);
+  --background-subtle: rgba(255, 255, 255, 0.06);
+  --foreground:        #f8fbff;
+  --foreground-rgb:    248, 251, 255;
+  --muted:             rgba(255, 255, 255, 0.08);
+  --muted-foreground:  #aeb9c8;
+  --border:            rgba(255, 255, 255, 0.12);
+  --border-strong:     rgba(255, 255, 255, 0.24);
   --accent:            #ffffff;
-  --accent-foreground: #000000;
-  --tag-bg:            #0f0f0f;
-  --tag-text:          #a3a3a3;
-  --link:              #60a5fa;  /* softer blue on dark */
+  --accent-foreground: #07111f;
+  --tag-bg:            rgba(255, 255, 255, 0.08);
+  --tag-text:          #c2cad7;
+  --link:              #7dd3fc;
+  --nav-bg:            rgba(4, 8, 14, 0.58);
+  --nav-border:        rgba(255, 255, 255, 0.12);
+  --nav-shadow:        0 18px 70px -42px rgba(0, 0, 0, 0.78);
 }
-
-/* ─── Base ───────────────────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
-  /* Offset hash navigation / scrollIntoView so section headings clear the
-     fixed navbar (h-14 = 56px) instead of being hidden underneath it. */
   scroll-padding-top: 72px;
 }
 
-/* Apply scroll-margin to all section anchors as a defensive baseline. */
 section[id] {
   scroll-margin-top: 72px;
 }
 
 body {
-  background-color: var(--background);
+  background: var(--page-bg);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+    background var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
 }
 
-/* Custom cursor: hide default on desktop, restore on touch or reduced-motion */
+[class*="bg-[var(--background)]"],
+[class*="bg-[var(--background-subtle)]"],
+[class*="bg-[var(--muted)]"] {
+  backdrop-filter: var(--surface-blur);
+  -webkit-backdrop-filter: var(--surface-blur);
+}
+
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
   *, *::before, *::after {
     cursor: none !important;
@@ -75,8 +88,6 @@ body {
   }
 }
 
-/* ─── Global link color — the only colorful element ─────────────────────── */
-
 a.colored-link {
   color: var(--link);
   text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
@@ -84,8 +95,6 @@ a.colored-link {
 a.colored-link:hover {
   text-decoration-color: var(--link);
 }
-
-/* ─── Typography ─────────────────────────────────────────────────────────── */
 
 h1 {
   font-size: clamp(2rem, 4vw, 2.75rem);
@@ -104,19 +113,13 @@ h3 {
   font-weight: 600;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
-
 ::-webkit-scrollbar { width: 0px; }
 * { scrollbar-width: none; }
-
-/* ─── Selection ──────────────────────────────────────────────────────────── */
 
 ::selection {
   background-color: var(--foreground);
   color: var(--background);
 }
-
-/* ─── Focus ──────────────────────────────────────────────────────────────── */
 
 :focus-visible {
   outline: 1.5px solid var(--foreground);
@@ -124,13 +127,9 @@ h3 {
   border-radius: 3px;
 }
 
-/* ─── Scrollbar hide (for carousel) ──────────────────────────────────────── */
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
-/* ─── Aurora blob drift ──────────────────────────────────────────────────── */
 
 @keyframes aurora-drift {
   0%   { transform: translate(0,    0)    scale(1);    border-radius: 60% 40% 55% 45% / 50% 60% 40% 55%; }
@@ -138,8 +137,6 @@ h3 {
   66%  { transform: translate(-20px, 35px) scale(0.96); border-radius: 55% 45% 60% 40% / 45% 55% 45% 55%; }
   100% { transform: translate(15px, -15px) scale(1.04); border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%; }
 }
-
-/* ─── Badge breathe ──────────────────────────────────────────────────────── */
 
 @keyframes badge-breathe {
   0%, 100% { box-shadow: 0 0 0 0 transparent; border-color: var(--border); }
@@ -149,30 +146,22 @@ h3 {
   animation: badge-breathe 3s ease-in-out infinite;
 }
 
-/* ─── Reduced motion ─────────────────────────────────────────────────────── */
-
 @media (prefers-reduced-motion: reduce) {
-  /* Kill all CSS animations and transitions except opacity/color */
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  /* Kill the aurora drift specifically */
   [style*="aurora-drift"] {
     animation: none !important;
   }
-  /* Keep opacity transitions (needed for cursor, badge, etc.) */
   .badge-breathe {
     animation: none !important;
     box-shadow: none !important;
   }
 }
 
-/* ─── Gradient section divider ───────────────────────────────────────────── */
-
-/* Replace flat border-t with a gradient that fades at both edges */
 .gradient-divider {
   border-top: none;
   position: relative;
@@ -193,4 +182,3 @@ h3 {
     transparent
   );
 }
-
