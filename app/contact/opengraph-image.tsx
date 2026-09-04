@@ -63,11 +63,11 @@ export default function Image() {
             color: "#525252",
           }}
         >
+          <span>AI Researcher</span>
+          <span>·</span>
           <span>ML Engineer</span>
           <span>·</span>
-          <span>Researcher</span>
-          <span>·</span>
-          <span>Builder</span>
+          <span>3× Springer Nature Author</span>
         </div>
       </div>
     ),

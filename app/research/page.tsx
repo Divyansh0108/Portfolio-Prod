@@ -40,7 +40,7 @@ const researchJsonLd = {
 
 export default function ResearchPage() {
   return (
-    <div className="pt-32 pb-16">
+    <div className="pt-28 pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(researchJsonLd) }}
@@ -53,13 +53,13 @@ export default function ResearchPage() {
           Research
         </h1>
         <p className="mt-2 text-[0.925rem] text-[var(--muted-foreground)] max-w-lg">
-          My research interests lie in practical applications of ML, DL, NLP, & CV in domains like Finance, Healthcare, and Cybersecurity — with a current focus on Neurosymbolic AI and LLM steering.
+          My research spans ML, DL, NLP, and computer vision — with a current focus on Neurosymbolic AI, sparse autoencoders and mechanistic interpretability, and federated learning for medical imaging.
         </p>
       </div>
 
       {/* Publications */}
       <h2 className="text-sm font-semibold text-[var(--foreground)] mb-4">Publications</h2>
-      <div className="space-y-0">
+      <div className="flex flex-col gap-1">
         {researchItems.map((item) => (
           <Link
             key={item.id}
@@ -67,7 +67,7 @@ export default function ResearchPage() {
             target="_blank"
             rel="noopener noreferrer"
             id={`research-${item.id}`}
-            className="group flex items-start justify-between gap-4 py-5 border-b border-[var(--border)] last:border-0 hover:opacity-80 transition-opacity"
+            className="group -mx-3 flex items-start justify-between gap-4 rounded-lg px-3 py-4 transition-[transform,background-color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:bg-[var(--surface-hover)] active:translate-y-0"
           >
             <div className="flex flex-col gap-1 flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-x-2">
@@ -79,7 +79,7 @@ export default function ResearchPage() {
                   </>
                 )}
               </div>
-              <h3 className="text-sm font-semibold text-[var(--foreground)] group-hover:text-[var(--muted-foreground)] transition-colors">
+              <h3 className="text-sm font-semibold text-[var(--foreground)]">
                 {item.title}
               </h3>
               <p className="text-sm text-[var(--muted-foreground)] leading-snug">
@@ -95,7 +95,7 @@ export default function ResearchPage() {
             </div>
             <ArrowUpRight
               size={14}
-              className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors"
+              className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] transition-all duration-150 group-hover:text-[var(--foreground)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
           </Link>
         ))}

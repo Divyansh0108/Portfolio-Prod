@@ -1,124 +1,49 @@
-"use client";
-
-import { useRef } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 
-const cards = [
-  {
-    id: "footer-cta-projects",
-    title: "Projects",
-    description: "Open-source tools and production systems I've built.",
-    cta: "Explore →",
-    href: "/projects",
-  },
-  {
-    id: "footer-cta-research",
-    title: "Research",
-    description: "Published work in ML, computer vision, and sensor-based recognition.",
-    cta: "Learn more →",
-    href: "/research",
-  },
-  {
-    id: "footer-cta-contact",
-    title: "Work with me",
-    description:
-      "Open to research collaborations, ML roles, and interesting projects.",
-    cta: "Get in touch",
-    href: "/contact",
-  },
+const links = [
+  { label: "Projects", href: "/projects" },
+  { label: "Research", href: "/research" },
+  { label: "Writing", href: "/writing" },
+  { label: "Resume", href: siteConfig.resumeUrl, external: true },
 ];
-
-function SpotlightCard({ card }: { card: (typeof cards)[number] }) {
-  const cardRef = useRef<HTMLAnchorElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  const onMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect();
-    const glow = glowRef.current;
-    if (!rect || !glow) return;
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    glow.style.background = `radial-gradient(160px circle at ${x}px ${y}px, rgba(99,102,241,0.12), transparent 70%)`;
-    glow.style.opacity = "1";
-  };
-
-  const onMouseLeave = () => {
-    if (glowRef.current) glowRef.current.style.opacity = "0";
-  };
-
-  return (
-    <Link
-      ref={cardRef}
-      href={card.href}
-      id={card.id}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      className="group relative flex flex-col gap-2 rounded-lg border border-[var(--border)] p-5 hover:border-[var(--muted-foreground)] transition-all duration-200 overflow-hidden"
-    >
-      {/* Spotlight glow layer */}
-      <div
-        ref={glowRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 rounded-lg"
-      />
-
-      <h3 className="text-sm font-semibold text-[var(--foreground)] relative z-10">
-        {card.title}
-      </h3>
-      <p className="text-sm text-[var(--muted-foreground)] flex-1 leading-relaxed relative z-10">
-        {card.description}
-      </p>
-      <span className="text-sm font-medium text-[var(--foreground)] group-hover:text-[var(--muted-foreground)] transition-colors duration-150 inline-flex items-center gap-1 relative z-10">
-        {card.cta}
-      </span>
-    </Link>
-  );
-}
 
 export function FooterCTA() {
   return (
-    <motion.section
-      id="footer-cta"
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="py-16 border-t border-[var(--border)] relative overflow-hidden"
-    >
-      {/* Muted aurora blob — mirrors the hero for visual cohesion */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-20 -right-20 w-[420px] h-[320px] opacity-[0.04] dark:opacity-[0.04] blur-[100px]"
-        style={{
-          background: "radial-gradient(ellipse at 60% 50%, #6366f1 0%, #a855f7 40%, transparent 70%)",
-          animation: "aurora-drift 14s ease-in-out infinite alternate-reverse",
-        }}
-      />
-      {/* 3-column CTA cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        {cards.map((card) => (
-          <SpotlightCard key={card.id} card={card} />
-        ))}
-      </div>
+    <section id="footer-cta" className="py-12 border-t border-[var(--border)]">
+      <h2 className="text-base font-semibold text-[var(--foreground)] mb-3">
+        Get in touch
+      </h2>
+      <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-[54ch] mb-6">
+        Open to research collaborations, ML/AI roles, and ambitious systems work.
+        Email is the fastest way to reach me.
+      </p>
 
-      {/* Availability + contact */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <p className="text-sm text-[var(--muted-foreground)] flex-1">
-          Open to research collaborations, ML/AI roles, and impactful projects.
-        </p>
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
         <Link
           href={`mailto:${siteConfig.email}`}
           id="footer-cta-email"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--foreground)] hover:text-[var(--muted-foreground)] transition-colors duration-150"
+          className="group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--foreground)] decoration-[var(--border-strong)] underline-offset-4 transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:underline active:translate-y-0 active:scale-95"
         >
           <Mail size={13} />
-          Email me
-          <ArrowRight size={13} />
+          {siteConfig.email}
+          <ArrowRight size={13} className="transition-transform duration-150 ease-[var(--ease-pop)] group-hover:translate-x-0.5" />
         </Link>
+
+        {links.map((l) => (
+          <Link
+            key={l.label}
+            href={l.href}
+            target={l.external ? "_blank" : undefined}
+            rel={l.external ? "noopener noreferrer" : undefined}
+            className="group inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] underline-offset-4 transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] hover:underline active:translate-y-0 active:scale-95"
+          >
+            {l.label}
+            <ArrowUpRight size={12} className="transition-transform duration-150 ease-[var(--ease-pop)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        ))}
       </div>
-    </motion.section>
+    </section>
   );
 }

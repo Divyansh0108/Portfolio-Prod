@@ -1,18 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { GraduationCap } from "lucide-react";
 
 export function Education() {
   return (
-    <motion.section
-      id="education"
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="py-16 border-t border-[var(--border)]"
-    >
+    <section id="education" className="py-12 border-t border-[var(--border)]">
       <h2 className="text-base font-semibold text-[var(--foreground)] mb-6">
         Education
       </h2>
@@ -29,7 +19,7 @@ export function Education() {
             B.Tech (Hons.) Computer Science Engineering — Major in AI &amp; ML
           </p>
           <p className="text-xs text-[var(--muted-foreground)]">
-            Sept 2022 – June 2026 · CGPA: <strong className="font-semibold text-[var(--foreground)]">8.53</strong>
+            Graduated · Sept 2022 – Jun 2026 · CGPA: <strong className="font-semibold text-[var(--foreground)]">8.53</strong>
           </p>
           <p className="text-xs text-[var(--muted-foreground)] mt-1">
             AI, Machine Learning, Deep Learning, Computer Vision, NLP
@@ -41,7 +31,7 @@ export function Education() {
             </li>
             <li className="flex items-start gap-1.5 text-sm text-[var(--muted-foreground)]">
               <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[var(--muted-foreground)]" />
-              Springer Nature Published Author — First Author at ICDEC 2024
+              3× Springer Nature Published Author — SN Computer Science (Q1), Discover Computing (Q2), ICDEC 2024
             </li>
             <li className="flex items-start gap-1.5 text-sm text-[var(--muted-foreground)]">
               <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[var(--muted-foreground)]" />
@@ -50,6 +40,6 @@ export function Education() {
           </ul>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

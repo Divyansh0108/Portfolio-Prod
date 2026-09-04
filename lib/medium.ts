@@ -14,11 +14,25 @@ function stripCDATA(raw: string): string {
   return raw.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").trim();
 }
 
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ",
+  hellip: "…", mdash: "—", ndash: "–", rsquo: "’", lsquo: "‘",
+  rdquo: "”", ldquo: "“",
+};
+
+/** Decodes numeric (&#x2019; / &#8217;) and common named HTML entities */
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&([a-zA-Z]+);/g, (m, name) => NAMED_ENTITIES[name] ?? m);
+}
+
 /** Extracts the text in a given XML tag from a string */
 function getTag(xml: string, tag: string): string {
   const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i");
   const m = xml.match(re);
-  return m ? stripCDATA(m[1]).trim() : "";
+  return m ? decodeEntities(stripCDATA(m[1]).trim()) : "";
 }
 
 /** Extracts all values for a repeated tag (e.g. <category>) */
@@ -39,9 +53,9 @@ function extractSnippet(descriptionHtml: string): string {
   const m = descriptionHtml.match(
     /class="medium-feed-snippet"[^>]*>([\s\S]*?)<\/p>/i
   );
-  if (m) return m[1].replace(/<[^>]+>/g, "").trim();
+  if (m) return decodeEntities(m[1].replace(/<[^>]+>/g, "").trim());
   // Fallback: strip all HTML tags
-  return descriptionHtml.replace(/<[^>]+>/g, "").trim().slice(0, 150);
+  return decodeEntities(descriptionHtml.replace(/<[^>]+>/g, "").trim()).slice(0, 150);
 }
 
 /** Strips UTM/source query params from Medium links */

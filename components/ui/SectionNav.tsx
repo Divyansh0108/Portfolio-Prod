@@ -10,8 +10,9 @@ const sections = [
   { id: "featured-projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "featured-writing", label: "Writing" },
-  { id: "education", label: "Education" },
   { id: "honors-awards", label: "Awards" },
+  { id: "volunteering", label: "Volunteering" },
+  { id: "education", label: "Education" },
 ];
 
 export function SectionNav() {
@@ -78,7 +79,7 @@ export function SectionNav() {
             aria-label={`Scroll to ${label}`}
             aria-current={isActive ? "location" : undefined}
             title={label}
-            className="group relative flex items-center justify-end gap-2"
+            className="group relative flex items-center justify-end gap-2 active:scale-90 transition-transform duration-150 ease-[var(--ease-pop)]"
           >
             {/* Tooltip label */}
             <span className="pointer-events-none absolute right-full mr-2.5 whitespace-nowrap rounded px-1.5 py-0.5 text-[10px] font-medium bg-[var(--muted)] text-[var(--muted-foreground)] opacity-0 group-hover:opacity-100 transition-opacity duration-150">
@@ -87,7 +88,7 @@ export function SectionNav() {
 
             {/* Dot */}
             <span
-              className="block rounded-full transition-all duration-250"
+              className="block rounded-full transition-all duration-200 ease-[var(--ease-pop)] group-hover:scale-150"
               style={{
                 width: isActive ? 8 : 5,
                 height: isActive ? 8 : 5,

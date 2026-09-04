@@ -21,13 +21,13 @@ export function Button({
   id,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium transition-[transform,opacity,background-color,border-color,color] duration-200 ease-[var(--ease-smooth)] cursor-pointer select-none hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]";
+    "inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium cursor-pointer select-none transition-[transform,box-shadow,opacity,background-color,border-color,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:scale-[1.03] active:translate-y-0 active:scale-[0.96] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)]";
 
   const variants = {
     primary:
-      "bg-[var(--accent)] text-[var(--accent-foreground)] hover:opacity-90",
+      "bg-[var(--accent)] text-[var(--accent-foreground)] hover:opacity-95 hover:shadow-md",
     ghost:
-      "border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--muted)]",
+      "border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--muted)] hover:border-[var(--border-strong)]",
   };
 
   const classes = `${base} ${variants[variant]} ${className}`;

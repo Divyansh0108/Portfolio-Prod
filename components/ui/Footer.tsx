@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Projects", href: "/projects" },
   { label: "Writing", href: "/writing" },
   { label: "Contact", href: "/contact" },
+  { label: "Beyond", href: "/beyond" },
 ];
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -26,7 +27,7 @@ const iconMap: Record<string, React.ReactNode> = {
 export function Footer() {
   return (
     <footer id="footer" className="border-t border-[var(--border)] mt-24">
-      <div className="mx-auto max-w-3xl px-6 py-12">
+      <div className="mx-auto max-w-2xl px-6 py-12">
         {/* Top row */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <span className="text-sm font-semibold text-[var(--foreground)]">
@@ -54,7 +55,7 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="hover:text-[var(--foreground)] transition-colors duration-150"
+                  className="inline-block transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] hover:underline underline-offset-4 active:translate-y-0 active:scale-95"
                 >
                   {link.label}
                 </Link>
@@ -71,13 +72,13 @@ export function Footer() {
                 href={siteConfig.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[var(--foreground)] transition-colors duration-150"
+                className="inline-block transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] hover:underline underline-offset-4 active:translate-y-0 active:scale-95"
               >
                 Resume
               </Link>
               <Link
                 href="/contact"
-                className="hover:text-[var(--foreground)] transition-colors duration-150"
+                className="inline-block transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] hover:underline underline-offset-4 active:translate-y-0 active:scale-95"
               >
                 Contact
               </Link>
@@ -95,7 +96,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   title={s.label}
-                  className="flex items-center justify-center h-10 w-10 rounded border border-[var(--border)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-all duration-150"
+                  className="flex items-center justify-center h-10 w-10 rounded border border-[var(--border)] transition-all duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:scale-105 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] active:scale-95"
                 >
                   {iconMap[s.icon]}
                 </Link>
@@ -103,7 +104,7 @@ export function Footer() {
             </div>
             <Link
               href={`mailto:${siteConfig.email}`}
-              className="flex items-center gap-1.5 text-xs hover:text-[var(--foreground)] transition-colors duration-150"
+              className="inline-flex items-center gap-1.5 text-xs transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] hover:underline underline-offset-4 active:translate-y-0 active:scale-95"
             >
               <Mail size={12} />
               {siteConfig.email}

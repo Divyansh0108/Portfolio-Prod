@@ -9,21 +9,21 @@ export async function FeaturedWriting() {
   return (
     <section
       id="featured-writing"
-      className="py-16 border-t border-[var(--border)]"
+      className="py-12 border-t border-[var(--border)]"
     >
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-base font-semibold text-[var(--foreground)]">Writing</h2>
         <Link
           href="/writing"
           id="featured-writing-view-all"
-          className="inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150"
+          className="group inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] active:translate-y-0 active:scale-95"
         >
           All writing
-          <ArrowRight size={13} />
+          <ArrowRight size={13} className="transition-transform duration-150 group-hover:translate-x-0.5" />
         </Link>
       </div>
 
-      <div>
+      <div className="flex flex-col">
         {featured.map((post) => (
           <Link
             key={post.id}
@@ -31,7 +31,7 @@ export async function FeaturedWriting() {
             target="_blank"
             rel="noopener noreferrer"
             id={`featured-writing-${post.id}`}
-            className="group flex items-start justify-between gap-4 py-4 border-b border-[var(--border)] last:border-0 hover:opacity-75 transition-opacity duration-150"
+            className="group -mx-3 flex items-start justify-between gap-4 rounded-lg px-3 py-4 transition-[transform,background-color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:bg-[var(--surface-hover)] active:translate-y-0"
           >
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">
               <h3 className="text-sm font-semibold text-[var(--foreground)] leading-snug">
@@ -45,7 +45,7 @@ export async function FeaturedWriting() {
             </div>
             <ArrowUpRight
               size={14}
-              className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-150"
+              className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] transition-all duration-150 group-hover:text-[var(--foreground)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
           </Link>
         ))}

@@ -34,7 +34,7 @@ const projectsJsonLd = {
 
 export default function ProjectsPage() {
   return (
-    <div className="pt-32 pb-16">
+    <div className="pt-28 pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsJsonLd) }}

@@ -1,48 +1,18 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { awards } from "@/lib/data";
 
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: "easeOut" as const },
-  },
-};
-
 export function HonorsAwards() {
   return (
-    <motion.section
-      id="honors-awards"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={stagger}
-      className="py-16 border-t border-[var(--border)]"
-    >
-      <motion.h2
-        variants={fadeUp}
-        className="text-base font-semibold text-[var(--foreground)] mb-6"
-      >
+    <section id="honors-awards" className="py-12 border-t border-[var(--border)]">
+      <h2 className="text-base font-semibold text-[var(--foreground)] mb-6">
         Honors &amp; Awards
-      </motion.h2>
+      </h2>
 
       <div className="space-y-4">
         {awards.map((award, i) => (
-          <motion.div
+          <div
             key={i}
-            variants={fadeUp}
-            className="flex items-start gap-3 rounded-lg border border-[var(--border)] p-4 hover:border-[var(--muted-foreground)] hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
+            className="flex items-start gap-3 rounded-lg border border-[var(--border)] p-4"
           >
             <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-[var(--muted)]">
               <Trophy size={14} className="text-[var(--muted-foreground)]" />
@@ -63,9 +33,9 @@ export function HonorsAwards() {
                 {award.description}
               </p>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 }

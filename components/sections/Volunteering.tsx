@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Users } from "lucide-react";
 
 const entries = [
@@ -48,42 +45,17 @@ const entries = [
   },
 ];
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: "easeOut" as const },
-  },
-};
-
 export function Volunteering() {
   return (
-    <motion.section
-      id="volunteering"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={stagger}
-      className="py-16 border-t border-[var(--border)]"
-    >
-      <motion.h2
-        variants={fadeUp}
-        className="text-base font-semibold text-[var(--foreground)] mb-6"
-      >
+    <section id="volunteering" className="py-12 border-t border-[var(--border)]">
+      <h2 className="text-base font-semibold text-[var(--foreground)] mb-6">
         Positions of Responsibility &amp; Volunteering
-      </motion.h2>
+      </h2>
 
       <div className="space-y-5">
         {entries.map((entry, i) => (
-          <motion.div
+          <div
             key={i}
-            variants={fadeUp}
             className="relative flex gap-4"
           >
             {/* Timeline line */}
@@ -124,9 +96,9 @@ export function Volunteering() {
                 </ul>
               )}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 }

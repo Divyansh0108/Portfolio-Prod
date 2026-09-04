@@ -29,12 +29,11 @@ export function getBaseUrl(): string {
 
 export const siteConfig = {
   name: "Divyansh Pandey",
-  role: "ML Engineer · Researcher · Builder",
-  tagline: "Turning research into real systems — across ML, NLP, CV, and Agents.",
+  role: "AI Researcher · ML Engineer",
+  tagline: "Turning research into real systems.",
   bio: [
-    "Researcher, ML Engineer, and Data Scientist with 2 years building E2E production-grade systems — spanning ML, NLP, CV, and AI Agents across Finance, Healthcare, and Cybersecurity.",
-    "A polymath at heart — I bring pattern recognition from 3D puzzles and investigative thinking into my engineering work. Currently deep into Neurosymbolic AI and LLM steering.",
-    "Reach out via email or LinkedIn — always open to interesting problems.",
+    "ML engineer and researcher working on Neurosymbolic AI, knowledge graphs, sparse autoencoders & mechanistic interpretability, VLMs & LVLMs, embodied AI, federated learning, and LLM fine-tuning.",
+    "Currently at IAIRO, IISER Kolkata, and Pragya Lab (BITS Goa). 3× Springer Nature published author — open to research collaborations and applied-ML roles.",
   ],
   email: "divyanshpandey0108@gmail.com",
   phone: "+91 9305425557",
@@ -47,39 +46,24 @@ export const siteConfig = {
 
 export const exploring: ExploreItem[] = [
   {
-    topic: "Generative AI & LLMs",
+    topic: "Neurosymbolic AI & Knowledge Graphs",
     description:
-      "Advanced deployment strategies, LLMOps pipelines, and fine-tuning workflows for production-grade language model applications.",
+      "Fusing neural networks with symbolic reasoning and structured knowledge for systems that generalize and stay interpretable.",
   },
   {
-    topic: "AI Agents",
+    topic: "Sparse Autoencoders & Mechanistic Interpretability",
     description:
-      "Building autonomous agent architectures with LangGraph and tool-use patterns for complex multi-step reasoning tasks.",
+      "Decomposing LLM internals to understand how models represent features and make decisions.",
   },
   {
-    topic: "Federated Learning",
+    topic: "VLMs, LVLMs & Embodied AI",
     description:
-      "Privacy-preserving ML for healthcare — decentralized training on non-IID medical imaging data without sharing raw patient records.",
+      "Vision-language models and grounded agents for real-world perception and action.",
   },
   {
-    topic: "Small Language Models & VLMs",
+    topic: "Efficient Inference & LLM Deployment",
     description:
-      "Exploring efficient SLMs and Vision-Language Models for edge deployment and resource-constrained real-world applications.",
-  },
-  {
-    topic: "MLOps Pipelines",
-    description:
-      "End-to-end production deployment with DVC, MLflow, Airflow, Docker, and Kubernetes — from experiment tracking to monitoring.",
-  },
-  {
-    topic: "Neurosymbolic AI",
-    description:
-      "Combining neural networks with symbolic reasoning to build systems that generalize better and are interpretable by design.",
-  },
-  {
-    topic: "LLM Steering",
-    description:
-      "Mechanistic interpretability and activation-level interventions to steer LLM behavior — making language models safer and more aligned.",
+      "Model optimization and serving language models at scale.",
   },
 ];
 
@@ -135,18 +119,25 @@ export const hobbyGroups: HobbyGroup[] = [
 
 export const awards: Award[] = [
   {
-    title: "Dean's List of All Round Excellence",
-    issuer: "Manipal University Jaipur",
-    date: "April 2025",
+    title: "3× Springer Nature Published Author",
+    issuer: "SN Computer Science (Q1) · Discover Computing (Q2) · ICDEC 2024",
+    date: "2024 – 2026",
     description:
-      "In recognition of off-campus achievements and overall excellence.",
+      "Peer-reviewed research in ensemble deep learning, federated medical image segmentation, and sensor-based human activity recognition.",
   },
   {
-    title: "Dean's List Excellence in Academics (Highest GPA)",
+    title: "Dean's List — Excellence in Academics (Highest GPA)",
     issuer: "Manipal University Jaipur",
-    date: "April 2024",
+    date: "2024",
     description:
-      "Awarded for securing the highest Grade Point Average in Computer Science and Engineering (AIML).",
+      "Awarded for the highest Grade Point Average in Computer Science and Engineering (AI & ML).",
+  },
+  {
+    title: "2× Dean's List — Excellence in Off-campus Achievements",
+    issuer: "Manipal University Jaipur",
+    date: "2025",
+    description:
+      "Recognition for research publications and competition results beyond the classroom.",
   },
   {
     title: "Runner Up — Xiaomi Ode2Code 3.0",
@@ -291,9 +282,19 @@ export const researchItems: ResearchItem[] = [
     subtitle:
       "Ensemble architecture combining DenseNet and EfficientNetB3 for hierarchical feature extraction with XGBoost classification, augmented by Class-Selective Image Preprocessing (CSIP), Grad-CAM interpretability, and a HIPAA/GDPR-compliant AWS deployment pipeline with federated learning provisions for multi-institutional privacy-preserving inference.",
     date: "2026",
-    venue: "SN Computer Science · Vol. 7, No. 360 (2026)",
+    venue: "SN Computer Science (Springer Nature) · Vol. 7, Art. 360 · Q1",
     href: "https://link.springer.com/article/10.1007/s42979-026-04953-2",
     tags: ["lung cancer detection", "histopathology", "deep learning", "ensemble learning", "CNN", "EfficientNetB3", "XGBoost"],
+  },
+  {
+    id: "fedbound-discover",
+    title: "FedBound: A Boundary-Aware Optimization Strategy for Federated Medical Image Segmentation Under Non-IID Data",
+    subtitle:
+      "A lightweight boundary-aware optimization strategy for federated medical image segmentation that emphasizes contour pixels during local training without adding communication overhead. Evaluated across six segmentation architectures on the ISIC 2018 skin-lesion dataset under a Dirichlet non-IID partition of 100 federated clients — improving boundary precision (HD95) and reducing cross-client variance while preserving Dice/IoU performance.",
+    date: "2026",
+    venue: "Discover Computing (Springer Nature) · Vol. 29, Art. 585 · Q2",
+    href: "https://scholar.google.com/citations?user=tlQfoXYAAAAJ",
+    tags: ["federated learning", "medical image segmentation", "boundary-aware loss", "HD95", "non-IID data", "deep learning"],
   },
   {
     id: "barbell-icdec",

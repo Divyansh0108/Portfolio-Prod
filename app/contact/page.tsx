@@ -29,7 +29,7 @@ const contactFit = [
 
 export default function ContactPage() {
   return (
-    <div className="pt-32 pb-16">
+    <div className="pt-28 pb-12">
       <div className="max-w-2xl">
         <span className="text-xs font-medium uppercase tracking-widest text-[var(--muted-foreground)]">
           Get in touch
@@ -112,11 +112,14 @@ export default function ContactPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 id={`contact-social-${s.icon}`}
-                className="inline-flex items-center gap-2.5 text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors duration-150"
+                className="group inline-flex items-center gap-2.5 text-sm font-medium text-[var(--muted-foreground)] transition-colors duration-150 hover:text-[var(--foreground)]"
               >
                 {iconMap[s.icon]}
                 {s.label}
-                <ArrowUpRight size={12} />
+                <ArrowUpRight
+                  size={12}
+                  className="transition-transform duration-150 ease-[var(--ease-pop)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </Link>
             ))}
           </div>

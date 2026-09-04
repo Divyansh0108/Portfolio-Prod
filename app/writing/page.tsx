@@ -47,7 +47,7 @@ export default async function WritingPage() {
   };
 
   return (
-    <div className="pt-32 pb-16">
+    <div className="pt-28 pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articlesJsonLd) }}
@@ -78,7 +78,7 @@ export default async function WritingPage() {
           No posts found. Check back soon.
         </p>
       ) : (
-        <div>
+        <div className="flex flex-col gap-1">
           {posts.map((post) => {
             const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
               year: "numeric",
@@ -93,7 +93,7 @@ export default async function WritingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 id={`writing-${post.id}`}
-                className="group flex items-start justify-between gap-4 py-5 border-b border-[var(--border)] last:border-0 hover:opacity-75 transition-opacity duration-150"
+                className="group -mx-3 flex items-start justify-between gap-4 rounded-lg px-3 py-4 transition-[transform,background-color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:bg-[var(--surface-hover)] active:translate-y-0"
               >
                 <div className="flex flex-col gap-1 flex-1 min-w-0">
                   <span className="text-xs text-[var(--muted-foreground)] font-medium">
@@ -117,7 +117,7 @@ export default async function WritingPage() {
                 </div>
                 <ArrowUpRight
                   size={14}
-                  className="mt-1 flex-shrink-0 text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-150"
+                  className="mt-1 flex-shrink-0 text-[var(--muted-foreground)] transition-all duration-150 group-hover:text-[var(--foreground)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
               </Link>
             );

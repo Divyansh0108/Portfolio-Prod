@@ -28,9 +28,12 @@ const personJsonLd = {
     "Deep Learning",
     "Natural Language Processing",
     "Computer Vision",
-    "AI Agents",
-    "Federated Learning",
+    "Generative AI",
     "Neurosymbolic AI",
+    "Knowledge Graphs",
+    "Mechanistic Interpretability",
+    "Sparse Autoencoders",
+    "Federated Learning",
     "MLOps",
   ],
   alumniOf: {
@@ -41,8 +44,8 @@ const personJsonLd = {
 
 function FeaturedWritingSkeleton() {
   return (
-    <section className="py-16 border-t border-[var(--border)]">
-      <div className="flex items-center justify-between mb-2">
+    <section className="py-12 border-t border-[var(--border)]">
+      <div className="flex items-center justify-between mb-6">
         <div className="h-4 w-14 bg-[var(--muted)] rounded animate-pulse" />
         <div className="h-4 w-20 bg-[var(--muted)] rounded animate-pulse" />
       </div>
@@ -81,10 +84,10 @@ export default function HomePage() {
       <Suspense fallback={<FeaturedWritingSkeleton />}>
         <FeaturedWriting />
       </Suspense>
-      <Education />
       <HonorsAwards />
       <Volunteering />
       <FooterCTA />
+      <Education />
     </>
   );
 }

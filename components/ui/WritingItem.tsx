@@ -21,10 +21,10 @@ export function WritingItem({ article, showDate = false }: WritingItemProps) {
       target="_blank"
       rel="noopener noreferrer"
       id={`writing-item-${article.id}`}
-      className="group flex items-start justify-between gap-4 py-4 border-b border-[var(--border)] last:border-0 hover:opacity-80 transition-opacity duration-150"
+      className="group -mx-3 flex items-start justify-between gap-4 rounded-lg px-3 py-4 transition-[transform,background-color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:bg-[var(--surface-hover)] active:translate-y-0"
     >
       <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-        <h3 className="text-sm font-semibold text-[var(--foreground)] group-hover:text-[var(--muted-foreground)] transition-colors duration-150">
+        <h3 className="text-sm font-semibold text-[var(--foreground)]">
           {article.title}
         </h3>
         <p className="text-sm text-[var(--muted-foreground)] leading-snug">
@@ -38,7 +38,7 @@ export function WritingItem({ article, showDate = false }: WritingItemProps) {
       </div>
       <ArrowUpRight
         size={14}
-        className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-150"
+        className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] transition-all duration-150 group-hover:text-[var(--foreground)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
       />
     </Link>
   );

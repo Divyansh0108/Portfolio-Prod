@@ -22,7 +22,7 @@ export function ProjectsGrid() {
       <div className="flex flex-wrap gap-2 mb-8">
         <button
           onClick={() => setActiveTag(null)}
-          className={`inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${
+          className={`inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all duration-200 ease-[var(--ease-pop)] hover:scale-105 active:scale-95 ${
             activeTag === null
               ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)] font-medium"
               : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)]"
@@ -35,7 +35,7 @@ export function ProjectsGrid() {
           <button
             key={tag}
             onClick={() => toggle(tag)}
-            className={`inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${
+            className={`inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all duration-200 ease-[var(--ease-pop)] hover:scale-105 active:scale-95 ${
               activeTag === tag
                 ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)] font-medium"
                 : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)]"

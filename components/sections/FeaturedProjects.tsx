@@ -1,159 +1,60 @@
-"use client";
-
-import { useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { TagPill } from "@/components/ui/TagPill";
 import { projects } from "@/lib/data";
 
 export function FeaturedProjects() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeDot, setActiveDot] = useState(0);
-
-  const checkScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-    const firstCard = el.firstElementChild as HTMLElement | null;
-    const stride = firstCard
-      ? firstCard.getBoundingClientRect().width + 16 // gap-4 = 16px
-      : el.scrollWidth / Math.max(projects.length, 1);
-    const dot = Math.round(el.scrollLeft / Math.max(stride, 1));
-    setActiveDot(Math.min(Math.max(dot, 0), projects.length - 1));
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    checkScroll();
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, []);
-
-  const scroll = (dir: "left" | "right") => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const amount = el.clientWidth * 0.78;
-    el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
-  };
+  const featured = projects.filter((p) => p.featured);
 
   return (
-    <motion.section
-      id="featured-projects"
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-      className="py-16 gradient-divider"
-    >
+    <section id="featured-projects" className="py-12 border-t border-[var(--border)]">
       <div className="flex items-center justify-between mb-6">
-        <div className="overflow-hidden">
-          <motion.h2
-            className="text-base font-semibold text-[var(--foreground)]"
-            initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
-            whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Projects
-          </motion.h2>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => scroll("left")}
-              disabled={!canScrollLeft}
-              aria-label="Scroll left"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] transition-[transform,border-color,color,opacity] duration-200 ease-[var(--ease-smooth)] hover:-translate-y-0.5 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
-            >
-              <ChevronLeft size={15} />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              disabled={!canScrollRight}
-              aria-label="Scroll right"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] transition-[transform,border-color,color,opacity] duration-200 ease-[var(--ease-smooth)] hover:-translate-y-0.5 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)] disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed"
-            >
-              <ChevronRight size={15} />
-            </button>
-          </div>
-
-          <Link
-            href="/projects"
-            id="featured-projects-view-all"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--muted-foreground)] transition-[transform,border-color,color] duration-200 ease-[var(--ease-smooth)] hover:-translate-y-0.5 hover:border-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-          >
-            View all
-            <ArrowRight size={11} />
-          </Link>
-        </div>
-      </div>
-
-      <div className="relative">
-        {canScrollRight && (
-          <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[var(--background)] to-transparent z-10 pointer-events-none" />
-        )}
-        {canScrollLeft && (
-          <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-[var(--background)] to-transparent z-10 pointer-events-none" />
-        )}
-
-        <div
-          ref={scrollRef}
-          role="region"
-          aria-label="Featured projects carousel"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowRight") { e.preventDefault(); scroll("right"); }
-            else if (e.key === "ArrowLeft") { e.preventDefault(); scroll("left"); }
-          }}
-          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-proximity scroll-smooth scrollbar-hide focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)] rounded-lg"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            WebkitOverflowScrolling: "touch",
-          }}
+        <h2 className="text-base font-semibold text-[var(--foreground)]">Projects</h2>
+        <Link
+          href="/projects"
+          id="featured-projects-view-all"
+          className="group inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] transition-[transform,color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:text-[var(--foreground)] active:translate-y-0 active:scale-95"
         >
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="w-[calc(50%-8px)] min-w-[280px] flex-shrink-0 snap-start"
-            >
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
+          View all
+          <ArrowRight size={13} className="transition-transform duration-150 group-hover:translate-x-0.5" />
+        </Link>
       </div>
 
-      <div className="flex justify-center gap-1.5 mt-4">
-        {projects.map((_, i) => (
-          <button
-            key={i}
-            aria-label={`Go to project ${i + 1}`}
-            onClick={() => {
-              const el = scrollRef.current;
-              if (!el) return;
-              const firstCard = el.firstElementChild as HTMLElement | null;
-              const stride = firstCard
-                ? firstCard.getBoundingClientRect().width + 16
-                : el.scrollWidth / Math.max(projects.length, 1);
-              el.scrollTo({ left: stride * i, behavior: "smooth" });
-            }}
-            className={`h-1.5 rounded-full transition-[width,background-color,transform] duration-300 ease-[var(--ease-smooth)] hover:scale-125 ${
-              i === activeDot
-                ? "w-4 bg-[var(--foreground)]"
-                : "w-1.5 bg-[var(--border)]"
-            }`}
-          />
+      <div className="flex flex-col">
+        {featured.map((project) => (
+          <Link
+            key={project.id}
+            href={project.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            id={`featured-project-${project.id}`}
+            className="group -mx-3 flex items-start justify-between gap-4 rounded-lg px-3 py-4 transition-[transform,background-color] duration-200 ease-[var(--ease-pop)] hover:-translate-y-0.5 hover:bg-[var(--surface-hover)] active:translate-y-0"
+          >
+            <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+              <div className="flex flex-wrap items-baseline gap-x-2">
+                <h3 className="text-sm font-semibold text-[var(--foreground)]">
+                  {project.title}
+                </h3>
+                <span className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
+                  {project.category}
+                </span>
+              </div>
+              <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+                {project.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mt-0.5">
+                {project.tags.slice(0, 5).map((tag) => (
+                  <TagPill key={tag} label={tag} />
+                ))}
+              </div>
+            </div>
+            <ArrowUpRight
+              size={14}
+              className="mt-0.5 flex-shrink-0 text-[var(--muted-foreground)] transition-all duration-150 group-hover:text-[var(--foreground)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 }

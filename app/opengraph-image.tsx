@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Divyansh Pandey — ML Engineer · Researcher · Builder";
+export const alt = "Divyansh Pandey — AI Researcher · ML Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,7 +29,7 @@ export default function Image() {
             marginBottom: 16,
           }}
         >
-          ML Engineer · Researcher · Builder
+          AI Researcher · ML Engineer
         </div>
         <div
           style={{
@@ -50,7 +50,7 @@ export default function Image() {
             maxWidth: 800,
           }}
         >
-          Turning research into real systems — across ML, NLP, CV, and Agents.
+          Turning research into real systems.
         </div>
         <div
           style={{
@@ -63,9 +63,9 @@ export default function Image() {
             color: "#525252",
           }}
         >
-          <span>Springer Nature Author</span>
+          <span>3× Springer Nature Author</span>
           <span>·</span>
-          <span>IIT Hyderabad · IAIRO</span>
+          <span>IAIRO · IISER-K · BITS Goa</span>
           <span>·</span>
           <span>3× Dean&apos;s List</span>
         </div>

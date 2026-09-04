@@ -3,12 +3,8 @@ import { DM_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { NavBar } from "@/components/ui/NavBar";
 import { Footer } from "@/components/ui/Footer";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { GrainOverlay } from "@/components/ui/GrainOverlay";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { PageTransition } from "@/components/ui/PageTransition";
-import { ParticleConstellation } from "@/components/ui/ParticleConstellation";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -20,7 +16,7 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const SEO_DESCRIPTION = `${siteConfig.tagline} ML Engineer & Researcher with 2+ years building production-grade ML, NLP, CV, and AI Agent systems.`;
+const SEO_DESCRIPTION = `${siteConfig.tagline} AI researcher and ML engineer — Neurosymbolic AI, knowledge graphs, sparse autoencoders & mechanistic interpretability, VLMs, and federated learning. 3× Springer Nature published author.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseUrl()),
@@ -36,10 +32,13 @@ export const metadata: Metadata = {
     "Deep Learning",
     "NLP",
     "Computer Vision",
-    "AI Agents",
+    "Generative AI",
     "LLM",
-    "Federated Learning",
     "Neurosymbolic AI",
+    "Mechanistic Interpretability",
+    "Sparse Autoencoders",
+    "Knowledge Graphs",
+    "Federated Learning",
     "Divyansh Pandey",
   ],
   authors: [{ name: siteConfig.name }],
@@ -99,15 +98,11 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <ParticleConstellation />
-          <ScrollProgress />
-          <GrainOverlay />
-          <CustomCursor />
           <NavBar />
-          <main id="main-content" className="mx-auto max-w-3xl px-6">
+          <main id="main-content" className="mx-auto max-w-2xl px-6">
             <PageTransition>{children}</PageTransition>
           </main>
-          <div className="mx-auto max-w-3xl px-6">
+          <div className="mx-auto max-w-2xl px-6">
             <Footer />
           </div>
           <BackToTop />
